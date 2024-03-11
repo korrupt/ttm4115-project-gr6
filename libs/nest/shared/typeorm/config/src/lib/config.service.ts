@@ -7,23 +7,23 @@ export class NestSharedTypeormConfigService {
   constructor(private config: ConfigService){}
 
   get HOST(): string {
-    return this.config.get('postgres.HOST')!;
+    return this.config.get('typeorm.HOST')!;
   }
 
   get PORT(): number {
-    return this.config.get('postgres.PORT')!;
+    return this.config.get('typeorm.PORT')!;
   }
 
   get USER(): string {
-    return this.config.get('postgres.USER')!;
+    return this.config.get('typeorm.USER')!;
   }
 
   get PASSWORD(): string {
-    return this.config.get('postgres.PASSWORD')!;
+    return this.config.get('typeorm.PASSWORD')!;
   }
 
   get DATABASE(): string {
-    return this.config.get('postgres.DATABASE')!;
+    return this.config.get('typeorm.DATABASE')!;
   }
 
 }
