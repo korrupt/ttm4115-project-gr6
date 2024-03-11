@@ -1,0 +1,8 @@
+{
+  "name": "nest-charger-data-access-domain",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/charger/data-access/domain/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

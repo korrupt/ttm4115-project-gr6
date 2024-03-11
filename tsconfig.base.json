@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@prosjekt/nest/charger/data-access/domain": [
+        "libs/nest/charger/data-access/domain/src/index.ts"
+      ],
       "@prosjekt/nest/shared/typeorm/config": [
         "libs/nest/shared/typeorm/config/src/index.ts"
       ]
