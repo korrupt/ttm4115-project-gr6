@@ -1,0 +1,8 @@
+{
+  "name": "nest-shared-postgres-config",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/shared/postgres/config/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}
