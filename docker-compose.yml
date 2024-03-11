@@ -1,0 +1,18 @@
+version: '3'
+
+
+services:
+  # api:
+  #   container_name:
+
+  postgres:
+    container_name: prosjekt-postgres
+    image: 'postgres:16.2'
+    ports:
+      - ${TYPEORM_PORT}:5432
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${TYPEORM_USER}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+      POSTGRES_DB: ${TYPEORM_DATABASE}

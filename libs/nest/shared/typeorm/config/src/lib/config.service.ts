@@ -10,7 +10,7 @@ export class NestSharedTypeormConfigService {
     return this.config.get('postgres.HOST')!;
   }
 
-  get PORT(): string {
+  get PORT(): number {
     return this.config.get('postgres.PORT')!;
   }
 

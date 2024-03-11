@@ -2,10 +2,25 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { NestSharedTypeormConfigModule } from '@prosjekt/nest/shared/typeorm/config';
+import { NestSharedTypeormConfigModule, NestSharedTypeormConfigService } from '@prosjekt/nest/shared/typeorm/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [NestSharedTypeormConfigModule],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      imports: [NestSharedTypeormConfigModule],
+      inject: [NestSharedTypeormConfigService],
+      useFactory: (conf: NestSharedTypeormConfigService) => ({
+        type: 'postgres',
+        host: conf.HOST,
+        port: conf.PORT,
+        username: conf.USER,
+        password: conf.PASSWORD,
+        database: conf.DATABASE,
+        synchronize: true
+      })
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

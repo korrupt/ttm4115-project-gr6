@@ -10,6 +10,7 @@ tmp
 
 # dependencies
 node_modules
+postgres/data
 
 # IDEs and editors
 /.idea
