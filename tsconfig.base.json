@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@prosjekt/nest/shared/postgres/config": [
-        "libs/nest/shared/postgres/config/src/index.ts"
+      "@prosjekt/nest/shared/typeorm/config": [
+        "libs/nest/shared/typeorm/config/src/index.ts"
       ]
     }
   },
