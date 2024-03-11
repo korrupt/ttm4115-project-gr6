@@ -1,0 +1,8 @@
+{
+  "name": "nest-charger-feature",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/charger/feature/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}
