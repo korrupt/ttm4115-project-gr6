@@ -1,6 +1,6 @@
 
-
 export interface ChargerRepository {
+  // only save changes here
   save: (charger: Charger) => Promise<Charger>;
 }
 
