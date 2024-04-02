@@ -13,7 +13,7 @@ import configuration from './configuration';
         TYPEORM_PORT: Joi.string().default('5432'),
         TYPEORM_USER: Joi.string().required(),
         TYPEORM_PASSWORD: Joi.string().required(),
-        TYPEORM_DATABASE: Joi.string().required()
+        TYPEORM_DATABASE: Joi.string().required(),
       })
     })
   ],
