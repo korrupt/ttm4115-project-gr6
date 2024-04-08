@@ -1,4 +1,4 @@
-from stmpy import Machine, Drvier
+from stmpy import Machine, Driver
 import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
@@ -81,3 +81,11 @@ class MQTT_client:
         except KeyboardInterrupt:
             print("Interrupted")
             self.client.disconnect()
+
+
+car = Car()
+car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
+car.stm = car_machine
+driver = Driver()
+driver.add_machine(car_machine)
+driver.start(max_transitions=10)
