@@ -1,5 +1,5 @@
 import { ChargerType } from '@prosjekt/shared/models';
-import { Column, Entity, GeoJSON, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, GeoJSON, Point, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('charger')
 export class ChargerEntity {
@@ -10,7 +10,7 @@ export class ChargerEntity {
   name!: string;
 
   @Column({ type: 'point' })
-  location!: GeoJSON;
+  location!: Point;
 
   @Column({ type: 'enum', enum: ChargerType, default: '{}', array: true })
   charger_types!: ChargerType[];
