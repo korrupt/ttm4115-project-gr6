@@ -29,7 +29,8 @@
       ],
       "@prosjekt/nest/shared/typeorm/config": [
         "libs/nest/shared/typeorm/config/src/index.ts"
-      ]
+      ],
+      "@prosjekt/shared/models": ["libs/shared/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

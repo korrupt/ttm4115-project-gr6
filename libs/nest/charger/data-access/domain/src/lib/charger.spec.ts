@@ -1,7 +1,7 @@
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { Charger, ChargerError } from './charger';
-import { ChargerType } from './interfaces';
+import { ChargerType } from '@prosjekt/shared/models';
 // import {  } from "ts-";
 
 describe("Charger", () => {

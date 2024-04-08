@@ -1,6 +1,6 @@
-import { ChargerType } from "./interfaces";
 import { ChargerUser } from "./aggregates/charger-user";
 import { TimeSlot } from "./aggregates/time-slot";
+import { ChargerType } from "@prosjekt/shared/models";
 
 export interface ChargerRepository {
   // findById: (id: string) => Promise<Charger>;
