@@ -1,1 +1,1 @@
-export * from './get-all-chargers.query-model';
+export * from './get-all-chargers.query';

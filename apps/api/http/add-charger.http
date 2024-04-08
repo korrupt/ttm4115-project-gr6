@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/charger
+Content-Type: application/json
+
+{
+  "name": "CHRG-1",
+  "charger_types": ["TYPE_1"],
+  "location": [50, 50]
+}

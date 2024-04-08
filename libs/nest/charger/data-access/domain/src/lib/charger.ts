@@ -1,6 +1,8 @@
+import { AggregateRoot } from '@nestjs/cqrs';
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { ChargerType } from '@prosjekt/shared/models';
+import { ChargerAddedEvent } from './event';
 
 export interface ChargerProps {
   readonly id: string;
@@ -21,7 +23,7 @@ export function isChargerError(error: any): error is ChargerError {
   return true;
 }
 
-export class Charger implements ChargerProps {
+export class Charger extends AggregateRoot implements ChargerProps {
   readonly id!: string;
   name!: string;
   location!: [number, number];
@@ -29,7 +31,12 @@ export class Charger implements ChargerProps {
   occupied_timeslots!: TimeSlot[];
 
   constructor(props: ChargerProps) {
+    super();
     Object.assign(this, props);
+  }
+
+  create(): void {
+    this.apply(new ChargerAddedEvent(this.id, this.charger_types, this.location));
   }
 
   addReservation(from: Date, to: Date, user: ChargerUser) {

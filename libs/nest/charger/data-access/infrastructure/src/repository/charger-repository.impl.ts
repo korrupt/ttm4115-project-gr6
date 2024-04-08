@@ -12,6 +12,14 @@ import { DataSource } from 'typeorm';
 export class ChargerRepositoryImpl implements ChargerRepository {
   constructor(@InjectDataSource() private dataSource: DataSource) {}
 
+  async newId(): Promise<string> {
+    const [{ id }] = await this.dataSource.query<[{ id: string }]>(
+      'SELECT uuid_generate_v4() AS id'
+    );
+
+    return id;
+  }
+
   async exists(id: string): Promise<Charger> {
     throw new NotFoundException();
   }
