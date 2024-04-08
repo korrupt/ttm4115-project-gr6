@@ -1,7 +1,7 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddChargerCommandHandler, ChargerController } from '@prosjekt/nest/charger/data-access/application';
-import { ChargerTokens } from '@prosjekt/nest/charger/data-access/domain';
+import { ChargerFactory, ChargerTokens } from '@prosjekt/nest/charger/data-access/domain';
 import {
   ChargerEntity,
   ChargerRepositoryImpl,
@@ -14,7 +14,9 @@ const APPLICATION = [
   AddChargerCommandHandler
 ];
 
-const DOMAIN = [];
+const DOMAIN = [
+  ChargerFactory,
+];
 
 const INFRASTRUCTURE: Provider[] = [
   {
@@ -30,7 +32,7 @@ const INFRASTRUCTURE: Provider[] = [
 
 @Module({
   controllers: [ChargerController],
-  providers: [...INFRASTRUCTURE, ...APPLICATION],
+  providers: [...INFRASTRUCTURE, ...APPLICATION, ...DOMAIN],
   exports: [],
   imports: [TypeOrmModule.forFeature([ChargerEntity, ChargerUserEntity])],
 })

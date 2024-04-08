@@ -5,12 +5,17 @@ import {
 import { InjectDataSource } from '@nestjs/typeorm';
 import {
   Charger,
+  ChargerFactory,
   ChargerRepository,
 } from '@prosjekt/nest/charger/data-access/domain';
 import { DataSource } from 'typeorm';
+import { ChargerEntity } from '../entity';
 
 export class ChargerRepositoryImpl implements ChargerRepository {
-  constructor(@InjectDataSource() private dataSource: DataSource) {}
+  constructor(
+    @InjectDataSource() private dataSource: DataSource,
+    private chargerFactory: ChargerFactory,
+  ) {}
 
   async newId(): Promise<string> {
     const [{ id }] = await this.dataSource.query<[{ id: string }]>(
@@ -32,7 +37,18 @@ export class ChargerRepositoryImpl implements ChargerRepository {
     throw new InternalServerErrorException();
   }
 
-  save(charger: Charger): Promise<Charger> {
-    throw new InternalServerErrorException();
+  async save(charger: Charger): Promise<Charger> {
+    await this.dataSource.getRepository(ChargerEntity).save(this.toPersistence(charger));
+
+    return charger;
+  }
+
+  private toPersistence(charger: Charger): ChargerEntity {
+    return {
+      id: charger.id,
+      name: charger.name,
+      charger_types: charger.charger_types,
+      location: { type: "Point", coordinates: charger.location }
+    }
   }
 }

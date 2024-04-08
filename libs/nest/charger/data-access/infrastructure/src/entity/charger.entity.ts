@@ -1,5 +1,6 @@
 import { ChargerType } from '@prosjekt/shared/models';
-import { Column, Entity, GeoJSON, Point, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Point } from 'geojson';
 
 @Entity('charger')
 export class ChargerEntity {
@@ -9,7 +10,13 @@ export class ChargerEntity {
   @Column()
   name!: string;
 
-  @Column({ type: 'point' })
+  @Index  ({ spatial: true })
+  @Column({
+    type: 'geography',
+    spatialFeatureType: 'Point',
+    srid: 4326,
+    nullable: true,
+  })
   location!: Point;
 
   @Column({ type: 'enum', enum: ChargerType, default: '{}', array: true })
