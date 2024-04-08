@@ -19,7 +19,11 @@ export class GetAllChargersQueryHandler
     return this.dataSource
       .getRepository(ChargerEntity)
       .createQueryBuilder('c')
-      .select(['c.id', 'c.name', 'c.location'])
+      .select([
+        'c.id as id',
+        'c.name as name',
+        'c.location as location'
+      ])
       .getRawMany();
   }
 }
