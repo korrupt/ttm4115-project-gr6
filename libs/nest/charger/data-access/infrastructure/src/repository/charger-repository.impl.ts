@@ -1,10 +1,16 @@
-import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { InjectDataSource } from "@nestjs/typeorm";
-import { Charger, ChargerRepository } from "@prosjekt/nest/charger/data-access/domain";
-import { DataSource } from "typeorm";
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import {
+  Charger,
+  ChargerRepository,
+} from '@prosjekt/nest/charger/data-access/domain';
+import { DataSource } from 'typeorm';
 
 export class ChargerRepositoryImpl implements ChargerRepository {
-  constructor(@InjectDataSource() private dataSource: DataSource){}
+  constructor(@InjectDataSource() private dataSource: DataSource) {}
 
   async exists(id: string): Promise<Charger> {
     throw new NotFoundException();
@@ -21,5 +27,4 @@ export class ChargerRepositoryImpl implements ChargerRepository {
   save(charger: Charger): Promise<Charger> {
     throw new InternalServerErrorException();
   }
-
 }

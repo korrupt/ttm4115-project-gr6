@@ -1,6 +1,7 @@
+export type GetAllChargersQueryParams = {
+  name?: string;
+};
 
-
-export type GetAllChargersQueryParams = {};
 export type GetAllChargersQueryResult = {
   id: string;
   name: string;
@@ -8,7 +9,7 @@ export type GetAllChargersQueryResult = {
 }[];
 
 export class GetAllChargersQuery implements GetAllChargersQueryParams {
-  constructor(params: GetAllChargersQueryParams){
+  constructor(params: GetAllChargersQueryParams) {
     Object.assign(this, params);
   }
 }

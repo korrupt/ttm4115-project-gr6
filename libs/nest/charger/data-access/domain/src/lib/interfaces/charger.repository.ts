@@ -1,4 +1,4 @@
-import { Charger } from "../charger";
+import { Charger } from '../charger';
 
 export interface ChargerRepository {
   // findById: (id: string) => Promise<Charger>;

@@ -1,5 +1,3 @@
-
-
 export class ChargerRemovedEvent {
-  constructor(readonly id: string){}
+  constructor(readonly id: string) {}
 }

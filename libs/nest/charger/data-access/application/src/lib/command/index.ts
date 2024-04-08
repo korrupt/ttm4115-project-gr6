@@ -1,3 +1,3 @@
-export * from './add-charger.command';
-export * from './add-reservation.command';
-export * from './remove-charger.command';
+export * from './add-charger.command-handler';
+
+export { AddChargerCommand } from '@prosjekt/shared/models';

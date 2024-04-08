@@ -1,5 +1,3 @@
-
-
 export class TimeSlotEndedEvent {
   constructor(
     readonly from: Date,

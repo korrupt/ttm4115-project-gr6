@@ -1,6 +1,5 @@
-import { ChargerType } from "@prosjekt/shared/models";
-import { Column, Entity, GeoJSON, PrimaryGeneratedColumn } from "typeorm";
-
+import { ChargerType } from '@prosjekt/shared/models';
+import { Column, Entity, GeoJSON, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('charger')
 export class ChargerEntity {

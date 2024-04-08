@@ -1,15 +1,14 @@
-
 export type ChargerUserProps = {
   readonly id: string;
 
   has_reservation: boolean;
-}
+};
 
 export class ChargerUser implements ChargerUserProps {
   readonly id!: string;
   has_reservation!: boolean;
 
-  constructor(props: ChargerUserProps){
+  constructor(props: ChargerUserProps) {
     Object.assign(this, props);
   }
 }

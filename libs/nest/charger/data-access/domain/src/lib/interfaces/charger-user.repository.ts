@@ -1,5 +1,5 @@
-import { ChargerUser } from "../aggregates/charger-user";
+import { ChargerUser } from '../aggregates/charger-user';
 
 export interface ChargerUserRepository {
-  findById: (id: string) => Promise<ChargerUser>
+  findById: (id: string) => Promise<ChargerUser>;
 }
