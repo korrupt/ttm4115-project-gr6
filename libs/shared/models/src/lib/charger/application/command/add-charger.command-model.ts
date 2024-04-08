@@ -1,4 +1,4 @@
-import { ChargerType } from "../charger-type.enum";
+import { ChargerType } from "../../charger-type.enum";
 
 export interface AddChargerCommandPropsModel {
   name: string;

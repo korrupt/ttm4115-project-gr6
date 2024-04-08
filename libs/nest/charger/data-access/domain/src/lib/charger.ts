@@ -2,15 +2,6 @@ import { ChargerUser } from "./aggregates/charger-user";
 import { TimeSlot } from "./aggregates/time-slot";
 import { ChargerType } from "@prosjekt/shared/models";
 
-export interface ChargerRepository {
-  // findById: (id: string) => Promise<Charger>;
-  findWithTimeSlots: (id: string, from: Date, to: Date) => Promise<Charger>;
-  exists: (id: string) => Promise<Charger>;
-  // only save changes here
-  save: (charger: Charger) => Promise<Charger>;
-  remove: (charger: Charger) => Promise<void>;
-}
-
 export interface ChargerProps {
   readonly id: string;
   name: string;

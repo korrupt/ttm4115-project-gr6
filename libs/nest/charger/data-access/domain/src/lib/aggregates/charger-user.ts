@@ -1,10 +1,4 @@
 
-
-
-export interface ChargerUserRepository {
-  findById: (id: string) => Promise<ChargerUser>;
-}
-
 export type ChargerUserProps = {
   readonly id: string;
 

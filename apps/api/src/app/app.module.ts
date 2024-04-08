@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NestSharedTypeormConfigModule, NestSharedTypeormConfigService } from '@prosjekt/nest/shared/typeorm/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CqrsModule } from '@nestjs/cqrs';
+import { NestChargerFeatureModule } from '@prosjekt/nest/charger/feature';
 
 @Module({
   imports: [
@@ -20,7 +22,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         autoLoadEntities: true,
         synchronize: true
       })
-    })
+    }),
+    CqrsModule.forRoot(),
+    NestChargerFeatureModule
   ],
   controllers: [AppController],
   providers: [AppService],
