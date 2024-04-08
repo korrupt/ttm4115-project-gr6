@@ -1,12 +1,83 @@
 from stmpy import Machine, Drvier
 import logging
 import paho.mqtt.client as mqtt
+from threading import Thread
+
+broker, port = "ibsen.no", 1883
 
 class Car:
+    def on_init(self):
+        print("Init!")
+
+    def send_mqtt_start_charge(self):
+        print("Start charge")
+        self.mqtt_client.publish("Start charge")
+
+    def send_mqtt_fully_charged(self):
+        print("Fully charged!")
+        self.mqtt_client.publish("Car is fully charged")
+
+    def send_mqtt_error(self):
+        print("Error from the car!")
+        self.mqtt_client.publish("Error")
+
+
+t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
+
+t1 = {
+    "trigger": "start_charge",
+    "source": "not_charge",
+    "target": "charge",
+    "effect": "send_mqtt_start_charge",
+}
+
+t2 = {
+    "trigger": "fully_charged",
+    "source": "charge",
+    "target": "not_charge",
+    "effect": "send_mqtt_fully_charged",
+}
+
+t3 = {
+    "trigger": "error",
+    "source": "charge",
+    "target": "not_charge",
+    "effect": "send_mqtt_error",
+}
+
+t4 = {
+    "trigger": "message",
+    "source": "charge",
+    "target": "not_charge",
+}
+
+
+
+class MQTT_client:
     def _init_(self):
         self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
     
-    def on_connect(self, client userdata, flags, rc):
+    def on_connect(self, client, userdata, flags, rc):
         print("on_connect(): {}".format(mqtt.connack_string(rc)))
+
+    def on_message(self, client, userdata, msg):
+        print("on_message(): topic: {}".format(msg.topic))
+        self.stm_driver.send("message", "tick_tock")
+
+    def start(self, broker, port):
+
+        print("Connecting to {}:{}".format(broker, port))
+        self.client.connect(broker, port)
+
+        #Finn et topic å subscribe til
+        self.client.subscribe("")
+
+        try:
+            # line below should not have the () after the function!
+            thread = Thread(target=self.client.loop_forever)
+            thread.start()
+        except KeyboardInterrupt:
+            print("Interrupted")
+            self.client.disconnect()
