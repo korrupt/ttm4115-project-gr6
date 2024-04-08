@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'nest-charger-data-access-application',
   preset: '../../../../../jest.preset.js',
