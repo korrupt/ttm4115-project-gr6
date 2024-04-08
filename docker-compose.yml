@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     container_name: prosjekt-postgres
-    image: 'postgres:16.2'
+    image: 'postgis/postgis:16-3.4-alpine'
     ports:
       - ${TYPEORM_PORT}:5432
     volumes:
