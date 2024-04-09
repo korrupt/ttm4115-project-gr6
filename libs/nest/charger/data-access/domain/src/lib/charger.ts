@@ -2,7 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { ChargerType } from '@prosjekt/shared/models';
-import { ChargerAddedEvent } from './event';
+import { ChargerAddedEvent, ChargerRemovedEvent } from './event';
 
 export interface ChargerProps {
   readonly id: string;
@@ -37,6 +37,10 @@ export class Charger extends AggregateRoot implements ChargerProps {
 
   create(): void {
     this.apply(new ChargerAddedEvent(this.id, this.charger_types, this.location));
+  }
+
+  remove(): void {
+    this.apply(new ChargerRemovedEvent(this.id));
   }
 
   addReservation(from: Date, to: Date, user: ChargerUser) {

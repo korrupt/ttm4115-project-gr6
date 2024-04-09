@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllChargersQuery } from '../query';
 import { AddChargerDto } from '../dto/add-charger.dto';
-import { AddChargerCommand } from '../command';
+import { AddChargerCommand, RemoveChargerCommand } from '../command';
 
 @Controller('charger')
 export class ChargerController {
@@ -17,4 +17,10 @@ export class ChargerController {
   public async addCharger(@Body() dto: AddChargerDto) {
     return this.commandBus.execute(new AddChargerCommand({ name: dto.name, charger_types: dto.charger_types, location: dto.location }))
   }
+
+  @Delete(':charger_id')
+  public async removeCharger(@Param('charger_id') charger_id: string) {
+    return this.commandBus.execute(new RemoveChargerCommand(charger_id));
+  }
+
 }

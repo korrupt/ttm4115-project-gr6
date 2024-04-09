@@ -17,7 +17,7 @@ export class ChargerFactory {
     )
   }
 
-  reconstitute(charger: Charger): Charger {
+  reconstitute(charger: ChargerProps): Charger {
     return this.eventPublisher.mergeObjectContext(new Charger({
       id: charger.id,
       name: charger.name,
