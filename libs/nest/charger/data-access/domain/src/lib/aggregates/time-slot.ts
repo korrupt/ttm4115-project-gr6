@@ -1,19 +1,20 @@
-
+import { Moment } from 'moment-timezone';
 
 
 export type TimeSlotProps = {
-  /** aggregate PK */
-  readonly from: Date;
-  readonly to: Date;
+  readonly id?: string;
+  readonly from: Moment;
+  readonly to: Moment;
   readonly charger_id: string;
-  readonly user_id: string;
+  readonly charger_user_id: string;
 }
 
 export class TimeSlot implements TimeSlotProps {
-  from!: Date;
-  to!: Date;
+  id?: string;
+  from!: Moment;
+  to!: Moment;
   charger_id!: string;
-  user_id!: string;
+  charger_user_id!: string;
 
   constructor(props: TimeSlotProps) {
     Object.assign(this, props);

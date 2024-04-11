@@ -25,6 +25,7 @@ import { APP_PIPE } from '@nestjs/core';
         database: conf.DATABASE,
         autoLoadEntities: true,
         synchronize: true,
+        useUTC: true,
       }),
     }),
     CqrsModule.forRoot(),

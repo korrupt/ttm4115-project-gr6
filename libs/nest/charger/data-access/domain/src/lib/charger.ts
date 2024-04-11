@@ -2,7 +2,8 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { ChargerType } from '@prosjekt/shared/models';
-import { ChargerAddedEvent, ChargerRemovedEvent } from './event';
+import { ChargerAddedEvent, ChargerRemovedEvent, ReservationAddedEvent } from './event';
+import { Moment } from 'moment-timezone';
 
 export interface ChargerProps {
   readonly id: string;
@@ -19,8 +20,8 @@ export enum ChargerError {
   ExistingReservation = 'EXISTING_RESERVATION',
 }
 
-export function isChargerError(error: any): error is ChargerError {
-  return true;
+export function isChargerError(error: unknown): error is ChargerError {
+  return Object.values(ChargerError).some((e) => (error as Error).toString() == e);
 }
 
 export class Charger extends AggregateRoot implements ChargerProps {
@@ -43,7 +44,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
     this.apply(new ChargerRemovedEvent(this.id));
   }
 
-  addReservation(from: Date, to: Date, user: ChargerUser) {
+  addReservation(from: Moment, to: Moment, user: ChargerUser) {
     if (from >= to) {
       // invalid
       throw ChargerError.Invalid;
@@ -69,13 +70,16 @@ export class Charger extends AggregateRoot implements ChargerProps {
       from,
       to,
       charger_id: this.id,
-      user_id: user.id,
+      charger_user_id: user.id,
     });
+
     this.occupied_timeslots.push(slot);
+
+    this.apply(new ReservationAddedEvent(from, to, this.id, user.id));
   }
 
-  removeReservation(from: Date, to: Date) {
-    if (from <= to) {
+  removeReservation(from: Moment, to: Moment) {
+    if (from >= to) {
       throw ChargerError.Invalid;
     }
 

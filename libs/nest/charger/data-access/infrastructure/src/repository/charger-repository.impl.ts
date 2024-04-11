@@ -8,14 +8,19 @@ import {
   ChargerFactory,
   ChargerProps,
   ChargerRepository,
+  TimeSlot,
+  TimeSlotFactory,
 } from '@prosjekt/nest/charger/data-access/domain';
 import { DataSource } from 'typeorm';
-import { ChargerEntity } from '../entity';
+import { ChargerEntity, TimeSlotEntity } from '../entity';
+import { TimeSlotRepository } from './time-slot.repository';
+import { Moment } from 'moment-timezone';
 
 export class ChargerRepositoryImpl implements ChargerRepository {
   constructor(
     @InjectDataSource() private dataSource: DataSource,
     private chargerFactory: ChargerFactory,
+    private timeslotRepository: TimeSlotRepository,
   ) {}
 
   async newId(): Promise<string> {
@@ -43,8 +48,15 @@ export class ChargerRepositoryImpl implements ChargerRepository {
     );
   }
 
-  async findWithTimeSlots(id: string, from: Date, to: Date): Promise<Charger> {
-    throw new InternalServerErrorException();
+  async findWithTimeSlots(charger_id: string, from: Moment, to: Moment): Promise<Charger> {
+    const charger = await this.findById(charger_id);
+
+    const timeslots = await this.timeslotRepository.findFromRange(from, to, charger_id);
+
+    return this.chargerFactory.reconstitute({
+      ...charger,
+      occupied_timeslots: timeslots
+    })
   }
 
   async remove(charger: Charger): Promise<void> {
@@ -52,6 +64,7 @@ export class ChargerRepositoryImpl implements ChargerRepository {
   }
 
   async save(charger: Charger): Promise<Charger> {
+    await this.timeslotRepository.save(charger.occupied_timeslots);
     await this.dataSource.getRepository(ChargerEntity).save(this.toPersistence(charger));
 
     return charger;
