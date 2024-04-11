@@ -1,6 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AddChargerCommandHandler, AddReservationCommandhandler, ChargerController, RemoveChargerCommandHandler } from '@prosjekt/nest/charger/data-access/application';
+import { AddChargerCommandHandler, AddReservationCommandhandler, ChargerController, RemoveChargerCommandHandler, RemoveReservationCommandHandler } from '@prosjekt/nest/charger/data-access/application';
 import { ChargerFactory, ChargerTokens } from '@prosjekt/nest/charger/data-access/domain';
 import {
   ChargerEntity,
@@ -15,7 +15,8 @@ import { TimeSlotRepository } from '@prosjekt/nest/charger/data-access/infrastru
 const APPLICATION = [
   AddChargerCommandHandler,
   RemoveChargerCommandHandler,
-  AddReservationCommandhandler
+  AddReservationCommandhandler,
+  RemoveReservationCommandHandler
 ];
 
 const DOMAIN = [

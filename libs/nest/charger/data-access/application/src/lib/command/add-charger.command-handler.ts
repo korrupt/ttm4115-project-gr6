@@ -18,7 +18,7 @@ export class AddChargerCommandHandler implements ICommandHandler<AddChargerComma
       charger_types,
       location,
       name,
-      occupied_timeslots: [],
+      loaded_timeslots: [],
     };
 
     const charger = new Charger(charger_props);

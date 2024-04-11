@@ -5,6 +5,7 @@ import { TimeSlotEntity } from "../entity";
 
 import { Moment } from 'moment-timezone';
 import moment = require("moment-timezone");
+import { NotFoundException } from "@nestjs/common";
 
 
 
@@ -12,11 +13,26 @@ export class TimeSlotRepository {
   constructor(@InjectDataSource() private dataSource: DataSource) {}
 
   public async save(timeslots: TimeSlot[]): Promise<TimeSlot[]> {
+
     await this.dataSource.getRepository(TimeSlotEntity).save(
-      timeslots.map((t) => this.toPersistence(t))
+      timeslots.filter((e) => !e.deleted).map((t) => this.toPersistence(t))
+    );
+
+    await this.dataSource.getRepository(TimeSlotEntity).remove(
+      timeslots.filter((e) => !!e.deleted).map((t) => this.toPersistence(t))
     );
 
     return timeslots;
+  }
+
+  public async findFromId(id: string): Promise<TimeSlot> {
+    const found = await this.dataSource.getRepository(TimeSlotEntity).findOneBy({ id });
+
+    if (!found) {
+      throw new NotFoundException()
+    }
+
+    return TimeSlotFactory.reconstitute(this.toDomain(found));
   }
 
   public async findFromRange(from: Moment, to: Moment, charger_id: string) {
@@ -42,9 +58,8 @@ export class TimeSlotRepository {
   }
 
   private toPersistence(timeslot: TimeSlot): TimeSlotEntity {
-    let from = timeslot.from.utcOffset(0).toISOString();
-    let to = timeslot.to.utcOffset(0).toISOString();
-
+    const from = timeslot.from.utcOffset(0).toISOString();
+    const to = timeslot.to.utcOffset(0).toISOString();
 
     return {
       ...timeslot,

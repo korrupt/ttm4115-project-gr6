@@ -7,6 +7,7 @@ export type TimeSlotProps = {
   readonly to: Moment;
   readonly charger_id: string;
   readonly charger_user_id: string;
+  deleted?: true;
 }
 
 export class TimeSlot implements TimeSlotProps {
@@ -15,6 +16,7 @@ export class TimeSlot implements TimeSlotProps {
   to!: Moment;
   charger_id!: string;
   charger_user_id!: string;
+  deleted?: true;
 
   constructor(props: TimeSlotProps) {
     Object.assign(this, props);

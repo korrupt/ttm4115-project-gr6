@@ -35,6 +35,16 @@ export class ChargerRepositoryImpl implements ChargerRepository {
     throw new NotFoundException();
   }
 
+  async findFromTimeslotId(id: string): Promise<Charger> {
+    const timeslot = await this.timeslotRepository.findFromId(id);
+
+    const charger = await this.findById(timeslot.charger_id);
+
+    charger.loaded_timeslots = [timeslot];
+
+    return charger;
+  }
+
   async findById(id: string): Promise<Charger> {
     const found = await this.dataSource.getRepository(ChargerEntity)
       .findOneBy({ id });
@@ -55,7 +65,7 @@ export class ChargerRepositoryImpl implements ChargerRepository {
 
     return this.chargerFactory.reconstitute({
       ...charger,
-      occupied_timeslots: timeslots
+      loaded_timeslots: timeslots
     })
   }
 
@@ -64,7 +74,7 @@ export class ChargerRepositoryImpl implements ChargerRepository {
   }
 
   async save(charger: Charger): Promise<Charger> {
-    await this.timeslotRepository.save(charger.occupied_timeslots);
+    await this.timeslotRepository.save(charger.loaded_timeslots);
     await this.dataSource.getRepository(ChargerEntity).save(this.toPersistence(charger));
 
     return charger;
@@ -74,7 +84,7 @@ export class ChargerRepositoryImpl implements ChargerRepository {
     return {
       ...charger,
       location: charger.location.coordinates as [number, number],
-      occupied_timeslots
+      loaded_timeslots: occupied_timeslots
     }
   }
 

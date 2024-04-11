@@ -1,0 +1,2 @@
+DELETE http://localhost:3000/api/charger/50c7e1d5-6cfc-4376-9bf2-9eb509104ff3/reservation/cb530ba6-bfd0-4590-a5a2-f028e48e05df
+Accept: application/json

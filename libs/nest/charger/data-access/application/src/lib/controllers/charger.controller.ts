@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllChargersQuery } from '../query';
 import { AddChargerDto, AddReservationDto } from '../dto';
 import { AddChargerCommand, RemoveChargerCommand } from '../command';
-import { AddReservationCommand } from '@prosjekt/shared/models';
+import { AddReservationCommand, RemoveReservationCommand } from '@prosjekt/shared/models';
 
 @Controller('charger')
 export class ChargerController {
@@ -33,6 +33,11 @@ export class ChargerController {
         ...dto,
         charger_id,
       }));
+  }
+
+  @Delete(':charger_id/reservation/:reservation_id')
+  public async removeReservation(@Param('reservation_id') reservation_id: string) {
+    return this.commandBus.execute(new RemoveReservationCommand(reservation_id))
   }
 
 }

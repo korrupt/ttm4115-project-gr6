@@ -23,7 +23,7 @@ export class ChargerFactory {
       name: charger.name,
       charger_types: charger.charger_types,
       location: charger.location,
-      occupied_timeslots: charger.occupied_timeslots,
+      loaded_timeslots: charger.loaded_timeslots,
     }))
   }
 }

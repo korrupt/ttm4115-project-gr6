@@ -2,7 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { ChargerType } from '@prosjekt/shared/models';
-import { ChargerAddedEvent, ChargerRemovedEvent, ReservationAddedEvent } from './event';
+import { ChargerAddedEvent, ChargerRemovedEvent, ReservationAddedEvent, ReservationRemovedEvent } from './event';
 import { Moment } from 'moment-timezone';
 
 export interface ChargerProps {
@@ -10,7 +10,7 @@ export interface ChargerProps {
   name: string;
   location: [number, number];
   charger_types: ChargerType[];
-  occupied_timeslots: TimeSlot[];
+  loaded_timeslots: TimeSlot[];
 }
 
 export enum ChargerError {
@@ -29,7 +29,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
   name!: string;
   location!: [number, number];
   charger_types!: ChargerType[];
-  occupied_timeslots!: TimeSlot[];
+  loaded_timeslots!: TimeSlot[];
 
   constructor(props: ChargerProps) {
     super();
@@ -52,7 +52,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
 
     // check if reserved
     if (
-      this.occupied_timeslots.some(
+      this.loaded_timeslots.some(
         (slot) =>
           (from >= slot.from && from < slot.to) ||
           (to >= slot.from && to < slot.to),
@@ -73,24 +73,28 @@ export class Charger extends AggregateRoot implements ChargerProps {
       charger_user_id: user.id,
     });
 
-    this.occupied_timeslots.push(slot);
+    this.loaded_timeslots.push(slot);
 
     this.apply(new ReservationAddedEvent(from, to, this.id, user.id));
   }
 
-  removeReservation(from: Moment, to: Moment) {
-    if (from >= to) {
-      throw ChargerError.Invalid;
-    }
-
-    const idx = this.occupied_timeslots.findIndex(
-      (slot) => slot.from == from && slot.to == to,
+  removeReservation(id: string) {
+    const idx = this.loaded_timeslots.findIndex(
+      (slot) => slot.id == id,
     );
 
     if (idx > -1) {
-      this.charger_types.splice(idx, 1);
+      this.loaded_timeslots[idx].deleted = true;
     } else {
       throw ChargerError.NotFound;
     }
+
+    this.apply(new ReservationRemovedEvent(
+      this.loaded_timeslots[idx].id as string,
+      this.loaded_timeslots[idx].charger_id,
+      this.loaded_timeslots[idx].charger_user_id,
+      this.loaded_timeslots[idx].from,
+      this.loaded_timeslots[idx].to,
+    ));
   }
 }
