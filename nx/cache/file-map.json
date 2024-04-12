@@ -1,0 +1,916 @@
+{
+  "version": "6.0",
+  "nxVersion": "18.2.3",
+  "deps": {
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^3.2.0",
+    "@nestjs/core": "^10.0.2",
+    "@nestjs/cqrs": "^10.2.7",
+    "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/typeorm": "^10.0.2",
+    "@swc/types": "^0.1.6",
+    "@types/geojson": "^7946.0.14",
+    "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "geojson": "^0.5.0",
+    "joi": "^17.12.2",
+    "moment-timezone": "^0.5.45",
+    "pg": "^8.11.3",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0",
+    "typeorm": "^0.3.20",
+    "webpack": "^5.91.0",
+    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/testing": "^10.0.2",
+    "@nx/eslint": "18.2.3",
+    "@nx/eslint-plugin": "18.2.3",
+    "@nx/jest": "18.2.3",
+    "@nx/js": "18.2.3",
+    "@nx/nest": "18.2.3",
+    "@nx/node": "18.2.3",
+    "@nx/web": "18.2.3",
+    "@nx/webpack": "18.2.3",
+    "@nx/workspace": "18.2.3",
+    "@swc-node/register": "~1.8.0",
+    "@swc/core": "~1.3.85",
+    "@swc/helpers": "~0.5.2",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "7.6.0",
+    "@typescript-eslint/parser": "7.6.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "nx": "18.2.3",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "5.4.4",
+    "webpack-cli": "^5.1.4"
+  },
+  "pathMappings": {
+    "@prosjekt/nest/charger/data-access/application": [
+      "libs/nest/charger/data-access/application/src/index.ts"
+    ],
+    "@prosjekt/nest/charger/data-access/domain": [
+      "libs/nest/charger/data-access/domain/src/index.ts"
+    ],
+    "@prosjekt/nest/charger/data-access/infrastructure": [
+      "libs/nest/charger/data-access/infrastructure/src/index.ts"
+    ],
+    "@prosjekt/nest/charger/feature": [
+      "libs/nest/charger/feature/src/index.ts"
+    ],
+    "@prosjekt/nest/shared/typeorm/config": [
+      "libs/nest/shared/typeorm/config/src/index.ts"
+    ],
+    "@prosjekt/shared/models": [
+      "libs/shared/models/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
+      }
+    },
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "name": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "package.json",
+        "hash": "1618308552841599387"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "11371788756121776430"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "14481172214912605784"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "12333515226966617182"
+      },
+      {
+        "file": "docker-compose.yml",
+        "hash": "16001550460981858127"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4757626149566365074"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "14862568534757755223"
+      },
+      {
+        "file": ".yarnrc",
+        "hash": "6414922622098367488"
+      },
+      {
+        "file": "stmpy/charger.py",
+        "hash": "5204905346488304907"
+      },
+      {
+        "file": ".env.example",
+        "hash": "17973700609245140086"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
+      },
+      {
+        "file": "README.md",
+        "hash": "8184362767546487336"
+      },
+      {
+        "file": "migrations.json",
+        "hash": "2167622897724937200"
+      },
+      {
+        "file": ".nxignore",
+        "hash": "14006108502140791500"
+      },
+      {
+        "file": ".yarn/releases/yarn-1.22.19.cjs",
+        "hash": "4339254978497063728"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "495704164780658671"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "18315524891129148814"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "4934098906304722861"
+      },
+      {
+        "file": "nx.json",
+        "hash": "12187648354665091478"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      }
+    ],
+    "projectFileMap": {
+      "nest-charger-data-access-infrastructure": [
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/.eslintrc.json",
+          "hash": "11685784436210005979"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/README.md",
+          "hash": "947332917016974749"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/jest.config.ts",
+          "hash": "6395311098346246225"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/project.json",
+          "hash": "14470355983969274177"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/entity/charger-user.entity.ts",
+          "hash": "13199222651300538963",
+          "deps": [
+            "npm:typeorm"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/entity/charger.entity.ts",
+          "hash": "13788551085512137029",
+          "deps": [
+            "shared-models",
+            "npm:typeorm",
+            "npm:geojson"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/entity/index.ts",
+          "hash": "2161493975990568834"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/entity/time-slot.entity.ts",
+          "hash": "6256949748387953042",
+          "deps": [
+            "npm:typeorm"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/index.ts",
+          "hash": "13359273981020745442"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/query/get-all-chargers.query-handler.ts",
+          "hash": "596052769054335937",
+          "deps": [
+            "npm:@nestjs/cqrs",
+            "npm:@nestjs/typeorm",
+            "shared-models",
+            "npm:typeorm"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/query/get-charger-reservations.query-handler.ts",
+          "hash": "10366237328499024897",
+          "deps": [
+            "npm:@nestjs/cqrs",
+            "npm:@nestjs/typeorm",
+            "shared-models",
+            "npm:typeorm",
+            "npm:moment-timezone",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/query/index.ts",
+          "hash": "18372100170454760632"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/repository/charger-repository.impl.ts",
+          "hash": "11998629876186222298",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/typeorm",
+            "nest-charger-data-access-domain",
+            "npm:typeorm",
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/repository/charger-user-repository.impl.ts",
+          "hash": "4386155305240744001",
+          "deps": [
+            "npm:@nestjs/typeorm",
+            "nest-charger-data-access-domain",
+            "npm:typeorm",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/repository/index.ts",
+          "hash": "6255210356470330028"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/src/repository/time-slot.repository.ts",
+          "hash": "8829567040824810958",
+          "deps": [
+            "npm:@nestjs/typeorm",
+            "npm:typeorm",
+            "nest-charger-data-access-domain",
+            "npm:moment-timezone",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/tsconfig.json",
+          "hash": "8720967645714115142"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/tsconfig.lib.json",
+          "hash": "12323902648817050946"
+        },
+        {
+          "file": "libs/nest/charger/data-access/infrastructure/tsconfig.spec.json",
+          "hash": "11174903457065821189"
+        }
+      ],
+      "nest-charger-data-access-application": [
+        {
+          "file": "libs/nest/charger/data-access/application/.eslintrc.json",
+          "hash": "11685784436210005979"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/README.md",
+          "hash": "15652251003411196760"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/jest.config.ts",
+          "hash": "1314228481632933565"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/project.json",
+          "hash": "9941107068879022073"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/index.ts",
+          "hash": "1139243728122202044"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/command/add-charger.command-handler.ts",
+          "hash": "11186568639377499208",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs",
+            "nest-charger-data-access-domain",
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/command/add-reservation.command-handler.ts",
+          "hash": "17345972699567952859",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs",
+            "nest-charger-data-access-domain",
+            "shared-models",
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/command/index.ts",
+          "hash": "14335039669928652347",
+          "deps": [
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/command/remove-charger.command-handler.ts",
+          "hash": "3989853651920841305",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs",
+            "nest-charger-data-access-domain",
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/command/remove-reservation.command-handler.ts",
+          "hash": "3949788224068318883",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs",
+            "nest-charger-data-access-domain",
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/controllers/charger.controller.ts",
+          "hash": "3379503740215121428",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs",
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/controllers/index.ts",
+          "hash": "6105888699243589203"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/dto/add-charger.dto.ts",
+          "hash": "6197307206743755265",
+          "deps": [
+            "shared-models",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/dto/add-reservation.dto.ts",
+          "hash": "17627213442730623863",
+          "deps": [
+            "shared-models",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/dto/get-charger-reservations.dto.ts",
+          "hash": "16187914788586062857",
+          "deps": [
+            "shared-models",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/dto/index.ts",
+          "hash": "9025238279789499457"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/src/lib/query/index.ts",
+          "hash": "7414683187017101640",
+          "deps": [
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/tsconfig.json",
+          "hash": "8720967645714115142"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/tsconfig.lib.json",
+          "hash": "12323902648817050946"
+        },
+        {
+          "file": "libs/nest/charger/data-access/application/tsconfig.spec.json",
+          "hash": "11174903457065821189"
+        }
+      ],
+      "nest-charger-feature": [
+        {
+          "file": "libs/nest/charger/feature/.eslintrc.json",
+          "hash": "15754961097349354736"
+        },
+        {
+          "file": "libs/nest/charger/feature/README.md",
+          "hash": "10879268982361293048"
+        },
+        {
+          "file": "libs/nest/charger/feature/jest.config.ts",
+          "hash": "1450656614480368910"
+        },
+        {
+          "file": "libs/nest/charger/feature/project.json",
+          "hash": "3294628344488963599"
+        },
+        {
+          "file": "libs/nest/charger/feature/src/index.ts",
+          "hash": "5163383958499047786"
+        },
+        {
+          "file": "libs/nest/charger/feature/src/lib/nest-charger-feature.module.ts",
+          "hash": "1602320755986846051",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/typeorm",
+            "nest-charger-data-access-application",
+            "nest-charger-data-access-domain",
+            "nest-charger-data-access-infrastructure"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/feature/tsconfig.json",
+          "hash": "9584156853704587869"
+        },
+        {
+          "file": "libs/nest/charger/feature/tsconfig.lib.json",
+          "hash": "8122501378292448260"
+        },
+        {
+          "file": "libs/nest/charger/feature/tsconfig.spec.json",
+          "hash": "12676338339107966475"
+        }
+      ],
+      "nest-shared-typeorm-config": [
+        {
+          "file": "libs/nest/shared/typeorm/config/.eslintrc.json",
+          "hash": "11685784436210005979"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/README.md",
+          "hash": "12160145085871426749"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/jest.config.ts",
+          "hash": "17975519682788267662"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/project.json",
+          "hash": "17923634030960499355"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/src/index.ts",
+          "hash": "3590541345347453291"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/src/lib/config.module.ts",
+          "hash": "2779298390531371308",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/config",
+            "npm:joi"
+          ]
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/src/lib/config.service.ts",
+          "hash": "17882448210232600810",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/config"
+          ]
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/src/lib/configuration.ts",
+          "hash": "8155539824866595384",
+          "deps": [
+            "npm:@nestjs/config"
+          ]
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/tsconfig.json",
+          "hash": "8720967645714115142"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/tsconfig.lib.json",
+          "hash": "12323902648817050946"
+        },
+        {
+          "file": "libs/nest/shared/typeorm/config/tsconfig.spec.json",
+          "hash": "11174903457065821189"
+        }
+      ],
+      "shared-models": [
+        {
+          "file": "libs/shared/models/.eslintrc.json",
+          "hash": "9703569748258640057"
+        },
+        {
+          "file": "libs/shared/models/README.md",
+          "hash": "9914695534849441376"
+        },
+        {
+          "file": "libs/shared/models/project.json",
+          "hash": "10321990143346030098"
+        },
+        {
+          "file": "libs/shared/models/src/index.ts",
+          "hash": "11120808337832427595"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/command/add-charger.command.ts",
+          "hash": "5979899646219124928"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/command/add-reservation.command.ts",
+          "hash": "13521134868303864358",
+          "deps": [
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/command/index.ts",
+          "hash": "10223366050314031535"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/command/remove-charger.command.ts",
+          "hash": "3210740506430293108"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/command/remove-reservation.command.ts",
+          "hash": "2003176912872430780"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/index.ts",
+          "hash": "9662690331086183037"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/query/get-all-chargers.query.ts",
+          "hash": "6595859208785994015"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/query/get-charger-reservations.query.ts",
+          "hash": "17645774328701900329"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/application/query/index.ts",
+          "hash": "16848998332888423153"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/charger-type.enum.ts",
+          "hash": "15566949471322468063"
+        },
+        {
+          "file": "libs/shared/models/src/lib/charger/index.ts",
+          "hash": "2703789816147658434"
+        },
+        {
+          "file": "libs/shared/models/tsconfig.json",
+          "hash": "11362601880824838265"
+        },
+        {
+          "file": "libs/shared/models/tsconfig.lib.json",
+          "hash": "4246227775020019741"
+        }
+      ],
+      "api": [
+        {
+          "file": "apps/api/.eslintrc.json",
+          "hash": "13800677001662881425"
+        },
+        {
+          "file": "apps/api/http/add-charger.http",
+          "hash": "14753742706398877572"
+        },
+        {
+          "file": "apps/api/http/add-reservation.http",
+          "hash": "13605479830177276632"
+        },
+        {
+          "file": "apps/api/http/get-all-chargers.http",
+          "hash": "9448789316229311341"
+        },
+        {
+          "file": "apps/api/http/get-charger-reservations.http",
+          "hash": "2569374042812919829"
+        },
+        {
+          "file": "apps/api/http/remove-charger.http",
+          "hash": "3878321171747050633"
+        },
+        {
+          "file": "apps/api/http/remove-reservation.http",
+          "hash": "16695706858470933896"
+        },
+        {
+          "file": "apps/api/jest.config.ts",
+          "hash": "9483968714649439783"
+        },
+        {
+          "file": "apps/api/project.json",
+          "hash": "16684524555101709024"
+        },
+        {
+          "file": "apps/api/src/app/app.controller.spec.ts",
+          "hash": "9499997688052526633",
+          "deps": [
+            "npm:@nestjs/testing"
+          ]
+        },
+        {
+          "file": "apps/api/src/app/app.controller.ts",
+          "hash": "9005150069945785676",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/src/app/app.module.ts",
+          "hash": "13202533638280979797",
+          "deps": [
+            "npm:@nestjs/common",
+            "nest-shared-typeorm-config",
+            "npm:@nestjs/typeorm",
+            "npm:@nestjs/cqrs",
+            "nest-charger-feature",
+            "npm:@nestjs/core"
+          ]
+        },
+        {
+          "file": "apps/api/src/app/app.service.spec.ts",
+          "hash": "8587461140686713758",
+          "deps": [
+            "npm:@nestjs/testing"
+          ]
+        },
+        {
+          "file": "apps/api/src/app/app.service.ts",
+          "hash": "9967902337593410053",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/api/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/api/src/main.ts",
+          "hash": "11205222914964382693",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/core"
+          ]
+        },
+        {
+          "file": "apps/api/tsconfig.app.json",
+          "hash": "3171572500325445971"
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "3490524966360018312"
+        },
+        {
+          "file": "apps/api/tsconfig.spec.json",
+          "hash": "11550347367511341917"
+        },
+        {
+          "file": "apps/api/webpack.config.js",
+          "hash": "10830236645376184640",
+          "deps": [
+            "npm:@nx/webpack",
+            "npm:path"
+          ]
+        }
+      ],
+      "api-e2e": [
+        {
+          "file": "apps/api-e2e/.eslintrc.json",
+          "hash": "13800677001662881425"
+        },
+        {
+          "file": "apps/api-e2e/jest.config.ts",
+          "hash": "5451374175158945661"
+        },
+        {
+          "file": "apps/api-e2e/project.json",
+          "hash": "8268224624778693884"
+        },
+        {
+          "file": "apps/api-e2e/src/api/api.spec.ts",
+          "hash": "110394728024017389",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/api-e2e/src/support/global-setup.ts",
+          "hash": "2568409276037275290"
+        },
+        {
+          "file": "apps/api-e2e/src/support/global-teardown.ts",
+          "hash": "5275447082211835490"
+        },
+        {
+          "file": "apps/api-e2e/src/support/test-setup.ts",
+          "hash": "10984585515912236441",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/api-e2e/tsconfig.json",
+          "hash": "15443990093475294480"
+        },
+        {
+          "file": "apps/api-e2e/tsconfig.spec.json",
+          "hash": "14954872453723519891"
+        }
+      ],
+      "nest-charger-data-access-domain": [
+        {
+          "file": "libs/nest/charger/data-access/domain/.eslintrc.json",
+          "hash": "11685784436210005979"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/README.md",
+          "hash": "5570590729313917284"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/jest.config.ts",
+          "hash": "7566663654099916585"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/project.json",
+          "hash": "16026155732188756702"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/index.ts",
+          "hash": "18277581521853883867"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/aggregates/charger-user.ts",
+          "hash": "16433518631632472052"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/aggregates/index.ts",
+          "hash": "7923405126960000891"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/aggregates/time-slot.ts",
+          "hash": "16149614498215000595",
+          "deps": [
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/charger.spec.ts",
+          "hash": "17521304212397717566",
+          "deps": [
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/charger.ts",
+          "hash": "8425079206434479637",
+          "deps": [
+            "npm:@nestjs/cqrs",
+            "shared-models",
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/charging-station.ts",
+          "hash": "7016543878782637436"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/charger-added.event.ts",
+          "hash": "5353520250465388060",
+          "deps": [
+            "shared-models"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/charger-removed.event.ts",
+          "hash": "17546871584828493310"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/index.ts",
+          "hash": "6361747615351762062"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/reservation-added.event.ts",
+          "hash": "15189448292166777390",
+          "deps": [
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/reservation-removed.event.ts",
+          "hash": "13746191385323733960",
+          "deps": [
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/event/time-slot-ended.event.ts",
+          "hash": "15163157982698732558"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/factory/charger-user.factory.ts",
+          "hash": "18297114728138169862"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/factory/charger.factory.ts",
+          "hash": "6416485466419348383",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/cqrs"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/factory/index.ts",
+          "hash": "4703464364201403230"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/factory/timeslot.factory.ts",
+          "hash": "6969585071597781759"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/interfaces/charger-user.repository.ts",
+          "hash": "11296497104695362654"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/interfaces/charger.repository.ts",
+          "hash": "8486364337149832363",
+          "deps": [
+            "npm:moment-timezone"
+          ]
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/interfaces/index.ts",
+          "hash": "6466095139647501679"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/src/lib/tokens.ts",
+          "hash": "4787394808228581343"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/tsconfig.json",
+          "hash": "8720967645714115142"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/tsconfig.lib.json",
+          "hash": "10234234747221819934"
+        },
+        {
+          "file": "libs/nest/charger/data-access/domain/tsconfig.spec.json",
+          "hash": "11174903457065821189"
+        }
+      ]
+    }
+  }
+}
