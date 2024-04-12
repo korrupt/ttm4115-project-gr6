@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllChargersQuery } from '../query';
-import { AddChargerDto, AddReservationDto } from '../dto';
+import { AddChargerDto, AddReservationDto, GetChargerReservationsDto } from '../dto';
 import { AddChargerCommand, RemoveChargerCommand } from '../command';
-import { AddReservationCommand, RemoveReservationCommand } from '@prosjekt/shared/models';
+import { AddReservationCommand, GetChargerReservationsQuery, RemoveReservationCommand } from '@prosjekt/shared/models';
 
 @Controller('charger')
 export class ChargerController {
@@ -33,6 +33,14 @@ export class ChargerController {
         ...dto,
         charger_id,
       }));
+  }
+
+  @Get(':charger_id/reservation')
+  public async getChargerReservations(
+      @Param('charger_id') charger_id: string,
+      @Query() params: GetChargerReservationsDto,
+    ) {
+    return this.queryBus.execute(new GetChargerReservationsQuery({ ...params, charger_id }));
   }
 
   @Delete(':charger_id/reservation/:reservation_id')

@@ -1,0 +1,5 @@
+GET http://localhost:3000/api/charger/50c7e1d5-6cfc-4376-9bf2-9eb509104ff3/reservation
+  ?from=2024-04-01T14:46:00Z
+  &to=2024-04-01T14:00:00Z
+
+Accept: application/json
