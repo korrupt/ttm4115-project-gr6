@@ -43,7 +43,7 @@ jobs:
       - install
       - run:
           name: Test affected
-          command: npx nx affected --base=main --head={{ CIRCLE_SHA1 }} -t test
+          command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t test
 
 workflows:
   api:
