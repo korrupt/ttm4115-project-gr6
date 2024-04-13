@@ -1,25 +1,60 @@
 version: 2.1
 
-orbs:
-  nx: nrwl/nx@1.6.2
+commands:
+  install:
+    steps:
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
 jobs:
-  main:
+  format_check:
     docker:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
-      # This line enables distribution
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
-      # - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="e2e-ci"
-      #- run: corepack enable
-      - run: yarn install --frozen-lockfile
-
-      - nx/set-shas
-
+      - install
       - run: npx nx format:check
-      - run: npx nx affected --base=$NX_BASE --head=$NX_HEAD -t lint test build e2e-ci
+
+  build_api:
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - checkout
+      - install
+      - run:
+          name: Build api
+          command: npx nx run api:build
+
+  affected_test:
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - checkout
+      - install
+      - run:
+          name: Test affected
+          command: npx nx affected --base=main --head={{ CIRCLE_SHA1 }} -t test
+
 workflows:
-  build:
+  api:
     jobs:
-      - main
+      - build_api
+
+  affected:
+    jobs:
+      - format_check
+      - affected_test:
+          filters:
+            branches:
+              ignore:
+                - main
