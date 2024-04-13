@@ -17,7 +17,7 @@ jobs:
 
       - nx/set-shas
 
-      - run: npx format:check
+      - run: npx nx format:check
       - run: npx nx affected --base=$NX_BASE --head=$NX_HEAD -t lint test build e2e-ci
 workflows:
   build:
