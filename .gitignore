@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+/cache
 
 # config
 .env
