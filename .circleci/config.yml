@@ -16,6 +16,15 @@ commands:
           paths:
             - ~/.cache/yarn
 
+  setup_local_docker:
+    steps:
+      - run:
+          name: Use sudo docker in local builds
+          command: |
+            if [[ $CIRCLE_SHELL_ENV == *"localbuild"* ]]; then
+              sudo chmod u+s $(which docker)
+            fi
+
 jobs:
   format_check:
     docker:
@@ -45,17 +54,20 @@ jobs:
           name: Run test affected projects
           command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t lint test --exclude *-e2e
 
-  affected_e2e:
+  api_e2e:
     docker:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
       - install
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - setup_local_docker
       - run:
           name: Setup daemons
           command: |
             cp .env.test .env
-            docker compose up -d
+            docker compose up -d postgres api
       - run:
           name: Run e2e on affected projects
           command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t e2e
@@ -67,6 +79,7 @@ workflows:
           filters:
             branches:
               only: main
+      - api_e2e
 
   affected:
     jobs:
@@ -76,7 +89,6 @@ workflows:
           #   branches:
           #     ignore:
           #       - main
-      - affected_e2e
           # filters:
           #   branches:
           #     ignore:
