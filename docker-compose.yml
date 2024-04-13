@@ -12,7 +12,7 @@ services:
       - 3000:3000
     build:
       context: .
-      dockerfile: ./apps/api/dockerfile
+      dockerfile: ./deployment/api.dockerfile
     networks:
       - prosjekt
     env_file: .env

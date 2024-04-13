@@ -1,4 +1,4 @@
-# FROM prosjekt_base:$(git rev-parse HEAD)
+FROM node:lts-alpine3.18 as deps
 
 RUN node_modules/.bin/nx run api:build
 
