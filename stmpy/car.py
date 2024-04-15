@@ -19,11 +19,6 @@ class Car:
         logging.info("Fully charged")
         #self.mqtt_client.publish("Car is fully charged")
 
-    def send_mqtt_error(self):
-        self.stm.send("error")
-        logging.info("Error from the car")
-        #self.mqtt_client.publish("Error")
-
 
 t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
 
@@ -39,13 +34,8 @@ t2 = {
     "target": "not_charge",
 }
 
-t3 = {
-    "trigger": "error",
-    "source": "charge",
-    "target": "not_charge",
-}
 
-t4 = {
+t3 = {
     "trigger": "message",
     "source": "charge",
     "target": "not_charge",
@@ -84,7 +74,7 @@ class MQTT_client:
 
 
 car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
+car_machine = Machine(transitions=[t0, t1, t2, t3], obj=car, name="car")
 car.stm = car_machine
 
 
@@ -113,7 +103,6 @@ driver.start()
 def test_machine():
     car.send_mqtt_start_charge()
     car.send_mqtt_fully_charged()
-    car.send_mqtt_error()
     print("Done")
 
 test_machine()
