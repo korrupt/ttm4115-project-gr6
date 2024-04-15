@@ -117,3 +117,4 @@ def test_machine():
     print("Done")
 
 test_machine()
+driver.stop()
