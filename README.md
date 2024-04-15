@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/korrupt/ttm4115-project-gr6/tree/main.svg?style=svg&circle-token=CCIPRJ_4GMYfxJ1yTH3K5DEDkEo9r_0df7367443bb7c970e22781849dc998358337230)](https://dl.circleci.com/status-badge/redirect/gh/korrupt/ttm4115-project-gr6/tree/main)
+
 # Prosjekt
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
