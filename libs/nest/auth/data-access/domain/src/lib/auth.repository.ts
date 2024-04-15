@@ -1,6 +1,8 @@
-import { User } from "@prosjekt/nest/user/data-access/domain";
-import { AuthProvider } from "./interfaces";
+import { AuthProvider, AuthUser } from "./interfaces";
+
+import { EntityManager } from "typeorm";
 
 export interface AuthRepository {
-  findUserBySub: (provider: AuthProvider, sub: string) => Promise<User>;
+  findAuthBySub: (em: EntityManager, provider: AuthProvider, sub: string) => Promise<AuthUser>;
+  findOrCreate: (em: EntityManager, provider: AuthProvider, sub: string, email: string, name: string) => Promise<AuthUser>;
 }

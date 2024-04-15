@@ -14,4 +14,10 @@ export class AuthEntity {
 
   @Column()
   sub!: string;
+
+  @Column()
+  email!: string;
+
+  @Column({ name: 'user_id' })
+  user_id!: string;
 }
