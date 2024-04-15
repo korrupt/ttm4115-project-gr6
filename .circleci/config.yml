@@ -45,8 +45,7 @@ jobs:
       - run:
           name: Build api
           command: |
-            docker build . -f deployment/api.dockerfile \
-            -t prosjekt-api-test
+            docker build . -f deployment/api.dockerfile
 
   affected_test:
     docker:
@@ -64,8 +63,10 @@ jobs:
     steps:
       - checkout
       - install
-      - run: npx nx run-many -t lint,test --exclude api-e2e
-
+      - run:
+          command: npx nx run-many -t lint,test --exclude api-e2e
+      - store_test_results:
+          path: test-results
 
   api_e2e:
     docker:
@@ -82,21 +83,16 @@ jobs:
             echo $CIRLCE_SHA1
             cp .env.test .env
             export $(grep -v '^#' .env | xargs)
-            # stop if started
-            docker stop postgres_test || true
-            docker stop api_test || true
             # postgres
             docker run --rm \
               -e POSTGRES_USER=$TYPEORM_USER \
               -e POSTGRES_PASSWORD=$TYPEORM_PASSWORD \
               -e POSTGRES_DB=$TYPEORM_DATABASE \
-              --name postgres_test \
               -d \
               postgis/postgis:16-3.4-alpine -p $TYPEORM_PORT
             # api
-            docker run --rm \
+            docker run --rm . -f deployment/api.dockerfile \
               --env-file=.env \
-              --name=api_test \
               -d \
               prosjekt-api-test
       - run:
@@ -108,9 +104,7 @@ workflows:
     jobs:
       - test_all
       - build_api
-      - api_e2e:
-          requires:
-            - "build_api"
+      - api_e2e
 
   affected:
     jobs:
