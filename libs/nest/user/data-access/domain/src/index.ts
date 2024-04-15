@@ -1,1 +1,1 @@
-export * from './lib/nest-user-data-access-domain.module';
+export * from './lib/interfaces';

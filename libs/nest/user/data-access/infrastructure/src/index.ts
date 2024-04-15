@@ -1,1 +1,2 @@
-export * from './lib/nest-user-data-access-infrastructure.module';
+export * from './lib/repository';
+export * from './lib/entity';
