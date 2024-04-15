@@ -43,7 +43,7 @@ t3 = {
 
 
 
-class MQTT_client:
+class MQTT_Client:
     def _init_(self):
         self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
@@ -74,9 +74,7 @@ class MQTT_client:
             self.client.disconnect()
 
 
-car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3], obj=car, name="car")
-car.stm = car_machine
+
 
 
 logger = logging.getLogger('stmpy.Driver')
@@ -96,14 +94,22 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 logging.getLogger().setLevel(logging.INFO)
-    
+
+
+car = Car()
+car_machine = Machine(transitions=[t0, t1, t2, t3], obj=car, name="car")
+car.stm = car_machine
+
 driver = Driver()
 driver.add_machine(car_machine)
-myclient = MQTT_client()
+
+myclient = MQTT_Client()
 car.mqtt_client = myclient.client
 myclient.stm_driver = driver
+
 driver.start()
 myclient.start(broker, port)
+
 
 
 def test_machine():
