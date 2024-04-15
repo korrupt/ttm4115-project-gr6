@@ -11,15 +11,18 @@ class Car:
 
     def send_mqtt_start_charge(self):
         print("Start charge")
-        self.mqtt_client.publish("Start charge")
+        self.stm.send("start_charge")
+        #self.mqtt_client.publish("Start charge")
 
     def send_mqtt_fully_charged(self):
         print("Fully charged!")
-        self.mqtt_client.publish("Car is fully charged")
+        self.stm.send("fully_charged")
+        #self.mqtt_client.publish("Car is fully charged")
 
     def send_mqtt_error(self):
         print("Error from the car!")
-        self.mqtt_client.publish("Error")
+        self.stm.send("error")
+        #self.mqtt_client.publish("Error")
 
 
 t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
