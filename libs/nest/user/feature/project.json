@@ -1,0 +1,9 @@
+{
+  "name": "nest-user-feature",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/user/feature/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project nest-user-feature --web",
+  "targets": {}
+}

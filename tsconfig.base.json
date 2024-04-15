@@ -15,6 +15,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@prosjekt/nest/auth/data-access/application": [
+        "libs/nest/auth/data-access/application/src/index.ts"
+      ],
+      "@prosjekt/nest/auth/data-access/domain": [
+        "libs/nest/auth/data-access/domain/src/index.ts"
+      ],
+      "@prosjekt/nest/auth/data-access/infrastructure": [
+        "libs/nest/auth/data-access/infrastructure/src/index.ts"
+      ],
+      "@prosjekt/nest/auth/feature": ["libs/nest/auth/feature/src/index.ts"],
       "@prosjekt/nest/charger/data-access/application": [
         "libs/nest/charger/data-access/application/src/index.ts"
       ],
@@ -30,6 +40,16 @@
       "@prosjekt/nest/shared/typeorm/config": [
         "libs/nest/shared/typeorm/config/src/index.ts"
       ],
+      "@prosjekt/nest/user/data-access/application": [
+        "libs/nest/user/data-access/application/src/index.ts"
+      ],
+      "@prosjekt/nest/user/data-access/domain": [
+        "libs/nest/user/data-access/domain/src/index.ts"
+      ],
+      "@prosjekt/nest/user/data-access/infrastructure": [
+        "libs/nest/user/data-access/infrastructure/src/index.ts"
+      ],
+      "@prosjekt/nest/user/feature": ["libs/nest/user/feature/src/index.ts"],
       "@prosjekt/shared/models": ["libs/shared/models/src/index.ts"]
     }
   },
