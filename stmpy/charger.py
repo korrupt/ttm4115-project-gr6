@@ -3,6 +3,7 @@ import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
 
+broker, port = "ibsen.no", 1883
 
 class Charger:
     def __init__(self):
