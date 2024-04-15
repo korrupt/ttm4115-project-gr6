@@ -10,6 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 import { NestChargerFeatureModule } from '@prosjekt/nest/charger/feature';
 import { APP_PIPE } from '@nestjs/core';
+import { NestAuthFeatureModule } from '@prosjekt/nest/auth/feature';
+import { NestUserFeatureModule } from '@prosjekt/nest/user/feature';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { APP_PIPE } from '@nestjs/core';
     }),
     CqrsModule.forRoot(),
     NestChargerFeatureModule,
+    NestAuthFeatureModule,
+    NestUserFeatureModule,
   ],
   controllers: [AppController],
   providers: [

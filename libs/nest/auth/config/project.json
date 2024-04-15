@@ -1,0 +1,9 @@
+{
+  "name": "nest-auth-config",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/auth/config/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project nest-auth-config --web",
+  "targets": {}
+}

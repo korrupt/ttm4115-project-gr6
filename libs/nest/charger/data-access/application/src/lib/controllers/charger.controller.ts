@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllChargersQuery } from '../query';
 import { AddChargerDto, AddReservationDto, GetChargerReservationsDto } from '../dto';
 import { AddChargerCommand, RemoveChargerCommand } from '../command';
 import { AddReservationCommand, GetChargerReservationsQuery, RemoveReservationCommand } from '@prosjekt/shared/models';
+import { JwtGuard } from '@prosjekt/nest/auth/data-access/application';
 
 @Controller('charger')
+@UseGuards(JwtGuard)
 export class ChargerController {
   constructor(private queryBus: QueryBus, private commandBus: CommandBus) {}
 

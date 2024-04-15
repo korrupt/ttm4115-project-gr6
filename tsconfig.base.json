@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@prosjekt/nest/auth/config": ["libs/nest/auth/config/src/index.ts"],
       "@prosjekt/nest/auth/data-access/application": [
         "libs/nest/auth/data-access/application/src/index.ts"
       ],
