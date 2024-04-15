@@ -39,10 +39,14 @@ jobs:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
-      - install
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - setup_local_docker
       - run:
           name: Build api
-          command: npx nx run api:build
+          command: |
+            docker build . -f deployment/api.dockerfile \
+            -t prosjekt-api-test
 
   affected_test:
     docker:
@@ -52,7 +56,16 @@ jobs:
       - install
       - run:
           name: Run test affected projects
-          command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t lint test --exclude *-e2e
+          command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t lint,test --exclude api-e2e
+
+  test_all:
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - checkout
+      - install
+      - run: npx nx run-many -t lint,test --exclude api-e2e
+
 
   api_e2e:
     docker:
@@ -66,30 +79,40 @@ jobs:
       - run:
           name: Setup daemons
           command: |
+            echo $CIRLCE_SHA1
             cp .env.test .env
-            docker compose up -d postgres api
+            export $(grep -v '^#' .env | xargs)
+            # stop if started
+            docker stop postgres_test || true
+            docker stop api_test || true
+            # postgres
+            docker run --rm \
+              -e POSTGRES_USER=$TYPEORM_USER \
+              -e POSTGRES_PASSWORD=$TYPEORM_PASSWORD \
+              -e POSTGRES_DB=$TYPEORM_DATABASE \
+              --name postgres_test \
+              -d \
+              postgis/postgis:16-3.4-alpine -p $TYPEORM_PORT
+            # api
+            docker run --rm \
+              --env-file=.env \
+              --name=api_test \
+              -d \
+              prosjekt-api-test
       - run:
-          name: Run e2e on affected projects
-          command: npx nx affected --base=main --head=$CIRCLE_SHA1 -t e2e
+          name: Run tests
+          command: npx nx run api-e2e:e2e
 
 workflows:
-  api:
+  api_prod:
     jobs:
-      - build_api:
-          filters:
-            branches:
-              only: main
-      - api_e2e
+      - test_all
+      - build_api
+      - api_e2e:
+          requires:
+            - "build_api"
 
   affected:
     jobs:
       - format_check
       - affected_test
-          # filters:
-          #   branches:
-          #     ignore:
-          #       - main
-          # filters:
-          #   branches:
-          #     ignore:
-          #       - main
