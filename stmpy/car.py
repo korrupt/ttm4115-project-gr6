@@ -86,6 +86,26 @@ class MQTT_client:
 car = Car()
 car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
 car.stm = car_machine
+
+
+logger = logging.getLogger('stmpy.Driver')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+logger = logging.getLogger('stmpy.Machine')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+logging.getLogger().setLevel(logging.INFO)
+    
 driver = Driver()
 driver.add_machine(car_machine)
-driver.start(max_transitions=10)
+driver.start()
