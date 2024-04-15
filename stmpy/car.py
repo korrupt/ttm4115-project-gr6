@@ -12,12 +12,12 @@ class Car:
     def send_mqtt_start_charge(self):
         self.stm.send("start_charge")
         logging.info("Charging started")
-        #self.mqtt_client.publish("Start charge")
+        self.mqtt_client.publish("cmd/charger/id/start")
 
     def send_mqtt_fully_charged(self):
         self.stm.send("fully_charged")
         logging.info("Fully charged")
-        #self.mqtt_client.publish("Car is fully charged")
+        self.mqtt_client.publish("cmd/charger/id/stop")
 
 
 t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
@@ -53,16 +53,17 @@ class MQTT_client:
         print("on_connect(): {}".format(mqtt.connack_string(rc)))
 
     def on_message(self, client, userdata, msg):
-        print("on_message(): topic: {}".format(msg.topic))
-        self.stm_driver.send("message", "tick_tock")
+        #print("on_message(): topic: {}".format(msg.topic))
+        #self.stm_driver.send("message", "tick_tock")
+        topic = msg.topic
+        self.stm_driver.send(topic, "car")
 
     def start(self, broker, port):
 
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
 
-        #Finn et topic å subscribe til
-        self.client.subscribe("")
+        self.client.subscribe("cmd/car/#")
 
         try:
             # line below should not have the () after the function!
@@ -98,7 +99,12 @@ logging.getLogger().setLevel(logging.INFO)
     
 driver = Driver()
 driver.add_machine(car_machine)
+myclient = MQTT_client()
+car.mqtt_client = myclient.client
+myclient.stm_driver = driver
 driver.start()
+myclient.start(broker, port)
+
 
 def test_machine():
     car.send_mqtt_start_charge()
