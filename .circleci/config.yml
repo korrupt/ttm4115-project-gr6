@@ -91,7 +91,7 @@ jobs:
               -d \
               postgis/postgis:16-3.4-alpine -p $TYPEORM_PORT
             # api
-            docker run --rm . -f deployment/api.dockerfile \
+            docker run --rm $(docker build . -q -f deployment/api.dockerfile) \
               --env-file=.env \
               -d \
               prosjekt-api-test
