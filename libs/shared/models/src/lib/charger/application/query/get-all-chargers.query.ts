@@ -5,7 +5,10 @@ export type GetAllChargersQueryParams = {
 export type GetAllChargersQueryResult = {
   id: string;
   name: string;
-  location: [number, number];
+  location: {
+    type: "Point",
+    coordinates: [number, number];
+  };
 }[];
 
 export class GetAllChargersQuery implements GetAllChargersQueryParams {

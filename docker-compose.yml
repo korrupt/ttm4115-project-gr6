@@ -23,6 +23,8 @@ services:
     container_name: prosjekt-postgres
     image: 'postgis/postgis:16-3.4-alpine'
     command: -p ${TYPEORM_PORT}
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - prosjekt-postgresql:/var/lib/postgresql/data
     environment:

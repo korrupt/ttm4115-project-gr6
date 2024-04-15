@@ -22,7 +22,7 @@ export class GetAllChargersQueryHandler
       .select([
         'c.id as id',
         'c.name as name',
-        'c.location as location'
+        'ST_AsGeoJSON(c.location)::jsonb as location'
       ])
       .getRawMany();
   }
