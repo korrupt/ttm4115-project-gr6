@@ -7,22 +7,19 @@ broker, port = "ibsen.no", 1883
 
 class Car:
     def on_init(self):
-        print("Init!")
+        pass
 
     def send_mqtt_start_charge(self):
-        print("Start charge")
         self.stm.send("start_charge")
         logging.info("Charging started")
         #self.mqtt_client.publish("Start charge")
 
     def send_mqtt_fully_charged(self):
-        print("Fully charged!")
         self.stm.send("fully_charged")
         logging.info("Fully charged")
         #self.mqtt_client.publish("Car is fully charged")
 
     def send_mqtt_error(self):
-        print("Error from the car!")
         self.stm.send("error")
         logging.info("Error from the car")
         #self.mqtt_client.publish("Error")
@@ -34,21 +31,18 @@ t1 = {
     "trigger": "start_charge",
     "source": "not_charge",
     "target": "charge",
-    "effect": "send_mqtt_start_charge",
 }
 
 t2 = {
     "trigger": "fully_charged",
     "source": "charge",
     "target": "not_charge",
-    "effect": "send_mqtt_fully_charged",
 }
 
 t3 = {
     "trigger": "error",
     "source": "charge",
     "target": "not_charge",
-    "effect": "send_mqtt_error",
 }
 
 t4 = {
@@ -117,7 +111,6 @@ driver.add_machine(car_machine)
 driver.start()
 
 def test_machine():
-    car.on_init()
     car.send_mqtt_start_charge()
     car.send_mqtt_fully_charged()
     car.send_mqtt_error()
