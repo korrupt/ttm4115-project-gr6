@@ -91,10 +91,10 @@ jobs:
               -d \
               postgis/postgis:16-3.4-alpine -p $TYPEORM_PORT
             # api
-            docker run --rm $(docker build . -q -f deployment/api.dockerfile) \
+            docker run --rm \
               --env-file=.env \
-              -d \
-              prosjekt-api-test
+              $(docker build . -q -f deployment/api.dockerfile) \
+              -d
       - run:
           name: Run tests
           command: npx nx run api-e2e:e2e
