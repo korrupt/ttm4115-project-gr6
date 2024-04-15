@@ -93,8 +93,8 @@ jobs:
             # api
             docker run --rm \
               --env-file=.env \
-              $(docker build . -q -f deployment/api.dockerfile) \
-              -d
+              -d \
+              $(docker build . -q -f deployment/api.dockerfile)
       - run:
           name: Run tests
           command: npx nx run api-e2e:e2e
