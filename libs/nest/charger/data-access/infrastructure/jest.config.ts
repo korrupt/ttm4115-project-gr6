@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nest-charger-data-access-infrastructure',
+  // displayName: 'nest-charger-data-access-infrastructure',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

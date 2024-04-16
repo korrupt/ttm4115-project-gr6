@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nest-user-data-access-application',
+  // displayName: 'nest-user-data-access-application',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

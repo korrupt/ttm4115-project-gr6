@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nest-user-data-access-domain',
+  // displayName: 'nest-user-data-access-domain',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

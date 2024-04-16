@@ -8,7 +8,7 @@ import { AuthPayload, JWT } from "@prosjekt/shared/models";
 interface GoogleResponse {
   provider: 'google';
   sub: string;
-  displayName: string;
+  // displayName: string;
   email: string;
 }
 

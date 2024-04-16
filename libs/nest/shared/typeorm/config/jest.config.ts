@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nest-shared-typeorm-config',
+  // displayName: 'nest-shared-typeorm-config',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

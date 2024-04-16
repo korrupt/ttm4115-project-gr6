@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'api',
+  // displayName: 'api',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
