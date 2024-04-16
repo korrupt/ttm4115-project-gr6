@@ -8,3 +8,5 @@
 /.vscode
 /.yarn
 /**/*.yml
+
+.angular
