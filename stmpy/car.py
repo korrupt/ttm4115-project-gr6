@@ -1,3 +1,4 @@
+import json
 from stmpy import Machine, Driver
 import logging
 import paho.mqtt.client as mqtt
@@ -34,9 +35,8 @@ t2 = {
     "target": "not_charge",
 }
 
-
 t3 = {
-    "trigger": "message",
+    "trigger": "disconnected",
     "source": "charge",
     "target": "not_charge",
 }
@@ -55,8 +55,12 @@ class MQTT_Client:
     def on_message(self, client, userdata, msg):
         #print("on_message(): topic: {}".format(msg.topic))
         #self.stm_driver.send("message", "tick_tock")
-        topic = msg.topic
-        self.stm_driver.send(topic, "car")
+        payload = msg.topic.decode("utf-8")
+        payload = json.loads(payload)
+        if payload["type"] == "connected":
+            self.stm_driver.send("start_charge", "car")
+        if payload["type"] == "disconnected":
+            self.stm_driver.send("disconnected")
 
     def start(self, broker, port):
 
@@ -72,7 +76,6 @@ class MQTT_Client:
         except KeyboardInterrupt:
             print("Interrupted")
             self.client.disconnect()
-
 
 
 
