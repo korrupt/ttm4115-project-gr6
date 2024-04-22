@@ -62,17 +62,17 @@ class MQTT_Client_1:
  
     def on_message(self, client, userdata, msg):
         topic = msg.topic
-        print(topic)
-        if (topic == "charger/start"):
-            self.stm_driver.send("start", "stm_charger")
+        print("test")
+        if (topic == "quiz/master"):
+            self.stm_driver.send("quiz_master_message", "quiz")
         else:
-            print("msg_unsupported, ", topic)
-        
+            self.stm_driver.send("ack", "quiz")
+ 
  
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe("charger/+")
+        self.client.subscribe("quiz/+")
  
         try:
             # line below should not have the () after the function!
