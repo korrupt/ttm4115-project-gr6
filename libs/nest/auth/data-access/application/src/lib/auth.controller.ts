@@ -8,7 +8,7 @@ import { AuthPayload, JWT } from "@prosjekt/shared/models";
 interface GoogleResponse {
   provider: 'google';
   sub: string;
-  // displayName: string;
+  displayName: string;
   email: string;
 }
 
@@ -38,6 +38,7 @@ export class AuthController {
     });
 
     res.status(HttpStatus.OK);
+
     return res.json({ access_token }) as unknown as JWT;
   }
 

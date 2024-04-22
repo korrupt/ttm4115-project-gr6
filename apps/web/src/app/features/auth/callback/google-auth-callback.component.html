@@ -1,0 +1,32 @@
+
+<style>
+  .wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  a, h3, p {
+    color: #FFF;
+  }
+
+  a {
+    margin: 8px;
+  }
+
+  h3, p {
+    margin: 0;
+  }
+</style>
+
+<div class="wrapper">
+  @if(error) {
+    <h3>Error:</h3>
+    <p>{{ error}}</p>
+
+    <a routerLink="/auth">Go back</a>
+  }
+  @if (loading) { <mat-spinner></mat-spinner> }
+</div>

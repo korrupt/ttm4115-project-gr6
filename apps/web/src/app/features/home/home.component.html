@@ -1,0 +1,23 @@
+<div class="home">
+
+  <google-map #map
+  width="100vw"
+  height="100%"
+  [options]="options"
+  (mapDrag)="onMapMove()"
+  (mapClick)="onMapClick($event)"
+  >
+  @for (marker of chargers$ | async; track marker) {
+    <map-marker-clusterer imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m">
+
+      <map-advanced-marker
+      [position]="marker.location.coordinates | lnglat"
+      [title]="marker.name"
+      [content]="makeContent()"
+      >
+
+    </map-advanced-marker>
+  </map-marker-clusterer>
+  }
+  </google-map>
+</div>

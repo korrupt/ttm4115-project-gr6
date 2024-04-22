@@ -7,20 +7,18 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:application",
+      "executor": "@angular-devkit/build-angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "browser": "apps/web/src/main.ts",
-        "server": "apps/web/src/main.server.ts",
         "outputPath": "dist/apps/web/browser",
         "index": "apps/web/src/index.html",
+        "main": "apps/web/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/web/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
         "styles": ["apps/web/src/styles.scss"],
-        "scripts": [],
-        "plugins": ["apps/web/load-env.js"]
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -39,13 +37,18 @@
           "outputHashing": "all"
         },
         "development": {
-          "sourceMap": false
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "web:build:production"

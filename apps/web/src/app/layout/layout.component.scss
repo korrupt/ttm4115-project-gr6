@@ -1,0 +1,23 @@
+.layout {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar {
+  color: #FFF;
+  h3 {
+    margin: 0;
+  }
+
+  height: 56px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  letter-spacing: .1em;
+}
+
+main {
+  min-height: calc(100vh - 56px);
+  position: relative;
+}
