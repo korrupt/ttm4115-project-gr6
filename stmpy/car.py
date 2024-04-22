@@ -20,32 +20,44 @@ class Car:
         logging.info("Fully charged")
         self.mqtt_client.publish("cmd/charger/id/stop")
 
+    def print_state(self, type, msg):
+        print(msg)
 
 t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
 
 t1 = {
     "trigger": "start_charge",
     "source": "not_charge",
-    "target": "charge"
+    "target": "charge",
+    "effect": 'print_state("type", "Moved to state charge")'
 }
 
 t2 = {
     "trigger": "fully_charged",
     "source": "charge",
-    "target": "not_charge"
+    "target": "not_charge",
+    "effect": "print_state('type', 'Moved to state not_charge')"
 }
 
 t3 = {
-    "trigger": "disconnected",
+    "trigger": "stop",
     "source": "charge",
-    "target": "not_charge"
+    "target": "not_charge",
+    "effect": "print_state('type', 'Moved to state not_charge')"
 }
 
+t4 = {
+    "trigger": "disconnected",
+    "source": "charge",
+    "target": "not_charge",
+    "effect": "print_state('type', 'moved to state not_charge')"
+}
 
 
 class MQTT_Client:
     def __init__(self):
-        self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1)
+        #self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1)
+        self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
     
@@ -53,22 +65,28 @@ class MQTT_Client:
         print("on_connect(): {}".format(mqtt.connack_string(rc)))
 
     def on_message(self, client, userdata, msg):
-        #print("on_message(): topic: {}".format(msg.topic))
-        #self.stm_driver.send("message", "tick_tock")
-        payload = msg.topic.decode("utf-8")
-        payload = json.loads(payload)
-        if payload["type"] == "connected":
+        print("message received")
+        try:
+            topic = msg.topic
+            payload = msg.payload.decode("utf-8")
+            data = json.loads(payload)
+        except Exception as e:
+            print("Error decoding or parsing message:", e)
+        print("topic: ", topic, "data:", data["msg"])
+        if topic == "cmd/car/id" and data["msg"] == "start":
+            print("hei")
             self.stm_driver.send("start_charge", "car")
-        if payload["type"] == "disconnected":
-            self.stm_driver.send("disconnected")
+        elif topic == "cmd/car/id" and data["msg"] == "stop":
+            self.stm_driver.send("stop", "car")  
+        elif topic == "cmd/car/id" and data["msg"] == "disconnected":
+            self.stm_driver.send("disconnected", "car")    
+
 
     def start(self, broker, port):
-
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-
-        self.client.subscribe("cmd/car/#")
-
+        self.client.subscribe("cmd/car/id")
+        self.client.subscribe("cmd/charger/id")
         try:
             # line below should not have the () after the function!
             thread = Thread(target=self.client.loop_forever)
@@ -76,8 +94,6 @@ class MQTT_Client:
         except KeyboardInterrupt:
             print("Interrupted")
             self.client.disconnect()
-
-
 
 
 logger = logging.getLogger('stmpy.Driver')
@@ -100,7 +116,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3], obj=car, name="car")
+car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
 car.stm = car_machine
 
 driver = Driver()
@@ -120,5 +136,4 @@ def test_machine():
     car.send_mqtt_fully_charged()
     print("Done")
 
-test_machine()
-driver.stop()
+#test_machine()
