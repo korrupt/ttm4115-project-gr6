@@ -1,18 +1,35 @@
 from stmpy import Machine, Driver
+import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
- 
+
 broker, port = "ipsen.no", 1883
- 
+
 class Charger:
     def __init__(self):
         self.electricity = 0
- 
+
     def msg(self, message):
         print(message)
 
-    def msg_cloud(self, message):
-        print(message)
+    def chargingStarted(self):
+        self.stm.send("start")
+        logging.info("Charging started")
+
+    def chargingEnded(self):
+        self.stm.send("end")
+        logging.info("Charging ended")
+
+    def chargerDown(self):
+        self.stm.send("down")
+        logging.info("Charger down")
+
+    def chargerDownWhileInUse(self):
+        pass
+
+    def chargerRepaired(self):
+        self.stm.send("repaired")
+        logging.info("Charger fixed")
 
     def start_measure_electricity(self):
         self.electricity = 0
@@ -21,13 +38,31 @@ class Charger:
         self.electricity = 15
         return self.electricity
     
- 
- 
+    def msg_cloud(self, msg_from_stm):
+        if (msg_from_stm == "idle"):
+            print("idle_msg")
+        elif (msg_from_stm == "active"):
+            print("active_msg")
+        elif (msg_from_stm == "done"):
+            print("done_msg_with_consumption", self.electricity)
+        elif (msg_from_stm == "down"):
+            print("down_msg")
+        elif (msg_from_stm == "repaired"):
+            print("repaired_msg")
+        else:
+            print("error, no msg of this type")
+
+
 class MQTT_Client_1:
     def __init__(self):
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
+        self.client.on_log = self.on_log
+
+    def on_log(self, client, userdata, level, buf):
+        print("Log:", buf)
+
  
  
     def on_connect(self, client, userdata, flags, rc):
@@ -35,21 +70,17 @@ class MQTT_Client_1:
  
     def on_message(self, client, userdata, msg):
         topic = msg.topic
-        if (topic == "charger/start"):
-            self.stm_driver.send("start", "charger_stm")
-        elif (topic == "charger/end"):
-            self.stm_driver.send("end", "charger_stm")
-        elif (topic == "charger/down"):
-            self.stm_driver.send("down", "charger_stm")
-        elif (topic == "charger/repaired"):
-            self.stm_driver.send("repaired", "charger_stm")
+        print("test")
+        if (topic == "quiz/master"):
+            self.stm_driver.send("quiz_master_message", "quiz")
         else:
-            print(topic)
+            self.stm_driver.send("ack", "quiz")
+ 
  
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe("charger/+")
+        self.client.subscribe("quiz/+")
  
         try:
             # line below should not have the () after the function!
@@ -58,8 +89,7 @@ class MQTT_Client_1:
         except KeyboardInterrupt:
             print("Interrupted")
             self.client.disconnect()
- 
- 
+
 s_idle = {
     'name': 'idle',
     'entry': 'msg_cloud("idle")'
@@ -107,19 +137,45 @@ t_repaired = {'trigger': 'repaired',
               'target': 'idle'
               }
 
- 
+
+
 charger = Charger()
-charger_machine =  Machine('charger_stm', [t_init, t_start, t_end, t_idle_down, t_active_down, t_repaired], charger, [s_idle, s_active, s_down])
-charger.stm = charger_machine
- 
+stm_charger = Machine(name='stm_charger', states=[s_idle, s_active, s_down] ,transitions=[t_init, t_start, t_end, t_idle_down, t_active_down, t_repaired], obj=charger)
+charger.stm = stm_charger
+
+logger = logging.getLogger('stmpy.Driver')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+logger = logging.getLogger('stmpy.Machine')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+logging.getLogger().setLevel(logging.INFO)
+    
 driver = Driver()
-driver.add_machine(charger_machine)
- 
+driver.add_machine(stm_charger)
+
 myclient = MQTT_Client_1()
 charger.mqtt_client = myclient.client
 myclient.stm_driver = driver
- 
+
 driver.start()
-myclient.start(broker, port)
- 
-driver.start()
+
+def test_charger():
+    charger.chargingStarted()
+    charger.chargingEnded()
+    charger.chargerDown()
+    charger.chargerRepaired()
+    charger.chargingStarted()
+    charger.chargerDown()
+    print("Testing_cycle_down")
+# test_charger()
