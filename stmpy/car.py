@@ -4,7 +4,7 @@ import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
 
-broker, port = "ibsen.no", 1883
+broker, port = "ipsen.no", 1883
 
 class Car:
     def on_init(self):
@@ -26,25 +26,25 @@ t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
 t1 = {
     "trigger": "start_charge",
     "source": "not_charge",
-    "target": "charge",
+    "target": "charge"
 }
 
 t2 = {
     "trigger": "fully_charged",
     "source": "charge",
-    "target": "not_charge",
+    "target": "not_charge"
 }
 
 t3 = {
     "trigger": "disconnected",
     "source": "charge",
-    "target": "not_charge",
+    "target": "not_charge"
 }
 
 
 
 class MQTT_Client:
-    def _init_(self):
+    def __init__(self):
         self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
