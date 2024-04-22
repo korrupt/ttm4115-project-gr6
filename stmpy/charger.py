@@ -1,7 +1,10 @@
 from stmpy import Machine, Driver
 import paho.mqtt.client as mqtt
 from threading import Thread
- 
+import json
+import random
+
+id = 1
 broker, port = "ipsen.no", 1883
  
 class Charger:
@@ -11,19 +14,23 @@ class Charger:
     def msg(self, message):
         print(message)
 
-    def msg_cloud(self, message):
+    def msg_cloud(self, type, message):
         print(message)
+        msg = {"msg": message}
+        json_msg = json.dumps(msg)
+        self.mqtt_client.publish(f"charger/{id}/{type}", json_msg)
 
     def start_measure_electricity(self):
         self.electricity = 0
 
     def end_measure_electricity(self):
-        self.electricity = 15
-        return self.electricity
+        self.electricity = random.randint(10,150)
+        self.msg_cloud("charge", self.electricity)
+
     
  
  
-class MQTT_Client_1:
+class MQTT_Client:
     def __init__(self):
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
@@ -35,21 +42,28 @@ class MQTT_Client_1:
  
     def on_message(self, client, userdata, msg):
         topic = msg.topic
-        if (topic == "charger/start"):
+        payload_str = msg.payload.decode("utf-8")
+        msg_content = ""
+        try:
+            msg_content = json.loads(payload_str)['msg']
+        except json.JSONDecodeError:
+            print("Failed to decode JSON")
+        print(msg_content)
+        if (msg_content == "start"):
             self.stm_driver.send("start", "charger_stm")
-        elif (topic == "charger/end"):
+        elif (msg_content == "end"):
             self.stm_driver.send("end", "charger_stm")
-        elif (topic == "charger/down"):
+        elif (msg_content == "down"):
             self.stm_driver.send("down", "charger_stm")
-        elif (topic == "charger/repaired"):
+        elif (msg_content == "repair"):
             self.stm_driver.send("repaired", "charger_stm")
         else:
-            print(topic)
+            print(topic, msg_content)
  
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe("charger/+")
+        self.client.subscribe(f"cmd/charger/{id}/#")
  
         try:
             # line below should not have the () after the function!
@@ -62,20 +76,20 @@ class MQTT_Client_1:
  
 s_idle = {
     'name': 'idle',
-    'entry': 'msg_cloud("idle")'
+    'entry': 'msg_cloud("status","idle")'
 }
 
 s_active = {
     'name': 'active',
-    'entry': 'msg_cloud("active");start_measure_electricity()',
-    'exit': 'end_measure_electricity();msg_cloud("done")'
+    'entry': 'msg_cloud("status","active");start_measure_electricity()',
+    'exit': 'end_measure_electricity();'
 
 }
 
 s_down = {
     'name': 'down',
-    'entry': 'msg_cloud("down")',
-    'exit' : 'msg_cloud("repaired")'
+    'entry': 'msg_cloud("status","down")',
+    'exit' : 'msg_cloud("status","repaired")'
 }
 
 t_init = {'source': 'initial',
@@ -115,7 +129,7 @@ charger.stm = charger_machine
 driver = Driver()
 driver.add_machine(charger_machine)
  
-myclient = MQTT_Client_1()
+myclient = MQTT_Client()
 charger.mqtt_client = myclient.client
 myclient.stm_driver = driver
  
