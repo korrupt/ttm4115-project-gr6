@@ -8,6 +8,7 @@ import {
   ChargerUserEntity,
   ChargerUserRepositoryImpl,
   GetAllChargersQueryHandler,
+  GetChargerByIdQueryHandler,
   GetChargerReservationsQueryHandler,
   TimeSlotEntity,
 } from '@prosjekt/nest/charger/data-access/infrastructure';
@@ -35,6 +36,7 @@ const INFRASTRUCTURE: Provider[] = [
   },
   GetAllChargersQueryHandler,
   GetChargerReservationsQueryHandler,
+  GetChargerByIdQueryHandler,
   TimeSlotRepository,
 ];
 

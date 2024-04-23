@@ -19,6 +19,9 @@ export class ChargerEntity {
   })
   location!: Point;
 
+  @Column({ default: 'DISABLED' })
+  status!: string;
+
   @Column({ type: 'enum', enum: ChargerType, default: '{}', array: true })
   charger_types!: ChargerType[];
 }

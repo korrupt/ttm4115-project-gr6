@@ -92,6 +92,7 @@ export class ChargerRepositoryImpl implements ChargerRepository {
     return {
       id: charger.id,
       name: charger.name,
+      status: charger.status,
       charger_types: charger.charger_types,
       location: { type: "Point", coordinates: charger.location }
     }

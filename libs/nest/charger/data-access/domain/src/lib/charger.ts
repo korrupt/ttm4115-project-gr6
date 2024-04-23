@@ -11,6 +11,7 @@ export interface ChargerProps {
   location: [number, number];
   charger_types: ChargerType[];
   loaded_timeslots: TimeSlot[];
+  status: string;
 }
 
 export enum ChargerError {
@@ -30,6 +31,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
   location!: [number, number];
   charger_types!: ChargerType[];
   loaded_timeslots!: TimeSlot[];
+  status!: string;
 
   constructor(props: ChargerProps) {
     super();

@@ -5,6 +5,7 @@ export type GetAllChargersQueryParams = {
 export type GetAllChargersQueryResult = {
   id: string;
   name: string;
+  status: string;
   location: {
     type: "Point",
     coordinates: [number, number];

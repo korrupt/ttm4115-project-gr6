@@ -24,6 +24,7 @@ export class ChargerFactory {
       charger_types: charger.charger_types,
       location: charger.location,
       loaded_timeslots: charger.loaded_timeslots,
+      status: charger.status,
     }))
   }
 }
