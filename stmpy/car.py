@@ -10,11 +10,6 @@ class Car:
     def on_init(self):
         pass
 
-    def send_mqtt_start_charge(self):
-        self.stm.send("start_charge")
-        logging.info("Charging started")
-        self.mqtt_client.publish("cmd/charger/id/start")
-
     def send_mqtt_fully_charged(self):
         self.stm.send("fully_charged")
         logging.info("Fully charged")
