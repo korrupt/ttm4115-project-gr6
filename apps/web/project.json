@@ -12,7 +12,7 @@
       "options": {
         "browser": "apps/web/src/main.ts",
         "server": "apps/web/src/main.server.ts",
-        "outputPath": "dist/apps/web/browser",
+        "outputPath": "dist/apps/web",
         "index": "apps/web/src/index.html",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/web/tsconfig.app.json",

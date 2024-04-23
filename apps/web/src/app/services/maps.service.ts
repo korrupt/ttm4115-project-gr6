@@ -13,7 +13,7 @@ export class WebMapsService {
     await new Promise<void>((res, rej) => {
         // const el = new HTMLScriptElement();
         const el = document.createElement('script');
-        el.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.MAPS_KEY}&loading=async`;
+        el.src = `https://maps.googleapis.com/maps/api/js?key=${process.env['MAPS_KEY']}&loading=async`;
 
         el.onload = () => {
           setTimeout(() => {

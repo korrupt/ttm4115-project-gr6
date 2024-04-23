@@ -5,6 +5,11 @@ import { WebChargerService } from '../../services/charger.service';
 import { GoogleMap, GoogleMapsModule, MapAdvancedMarker, MapMarker, MapMarkerClusterer } from "@angular/google-maps";
 import { WebMapsService } from '../../services/maps.service';
 import { BehaviorSubject, debounceTime, map, Subject, tap } from 'rxjs';
+import { ChargerModalComponent } from './components/charger-modal/charger-modal.component';
+import { GetAllChargersQueryResult } from '@prosjekt/shared/models';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DARK_MODE_STYLES } from './util/maps-dark-mode';
+
 
 @Pipe({
   pure: true,
@@ -28,8 +33,9 @@ export class LngLatPipe implements PipeTransform {
     CommonModule,
     GoogleMapsModule,
     LngLatPipe,
-    MapAdvancedMarker,
-    MapMarkerClusterer,
+    MapMarker,
+    ChargerModalComponent,
+    MatDialogModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -41,6 +47,8 @@ export class HomeComponent implements OnInit {
   auth = inject(WebAuthService);
   charger = inject(WebChargerService);
   maps = inject(WebMapsService);
+  dialog = inject(MatDialog);
+
   trigger = new Subject<void>();
 
 
@@ -62,16 +70,6 @@ export class HomeComponent implements OnInit {
     return marker;
   }
 
-  // markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
-  //   content: (() => {
-  //     const marker = document.createElement('img');
-  //     marker.src = "assets/charger.svg";
-
-  //     return marker;
-  //   })() as Node,
-  // };
-
-
   options: google.maps.MapOptions = {
     center: {
       lat: 63.425394,
@@ -82,8 +80,9 @@ export class HomeComponent implements OnInit {
     streetViewControl: false,
     fullscreenControl: false,
     keyboardShortcuts: false,
-    mapId: process.env.MAPS_ID,
+    mapId: process.env['MAPS_ID'],
     clickableIcons: false,
+    styles: DARK_MODE_STYLES,
   }
 
   onMapClick(event: google.maps.MapMouseEvent) {
@@ -94,8 +93,18 @@ export class HomeComponent implements OnInit {
     this.trigger.next();
   }
 
+  onChargerClick(charger: GetAllChargersQueryResult[number], event: google.maps.MapMouseEvent) {
+    console.log(charger, event)
+  }
+
   ngOnInit(): void {
-    this.bounds$.subscribe()
+    this.bounds$.subscribe();
+
+    this.dialog.open(ChargerModalComponent, {
+      position: { top: '10px', left: '50px' },
+      width: '200px',
+      height: '200px',
+    });
   }
 
   chargers$ = this.charger.getAllChargers();

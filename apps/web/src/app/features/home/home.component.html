@@ -8,16 +8,17 @@
   (mapClick)="onMapClick($event)"
   >
   @for (marker of chargers$ | async; track marker) {
-    <map-marker-clusterer imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m">
+    <!-- <map-marker-clusterer imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"> -->
 
       <map-advanced-marker
       [position]="marker.location.coordinates | lnglat"
       [title]="marker.name"
       [content]="makeContent()"
+      (mapClick)="onChargerClick(marker, $event)"
       >
 
     </map-advanced-marker>
-  </map-marker-clusterer>
+  <!-- </map-marker-clusterer> -->
   }
   </google-map>
 </div>
