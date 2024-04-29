@@ -28,6 +28,21 @@ services:
     environment:
       TYPEORM_HOST: "postgres"
 
+  mosquitto:
+    # user: "1000"
+    image: eclipse-mosquitto:latest
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 8883:8883
+    volumes:
+      - ./mosquitto/certs:/mosquitto/certs
+      - ./mosquitto/config:/mosquitto/config:rw
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+
+
   postgres:
     container_name: prosjekt-postgres
     image: 'postgis/postgis:16-3.4-alpine'
