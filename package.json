@@ -26,6 +26,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/typeorm": "^10.0.2",
+    "@ngrx/component-store": "^17.2.0",
     "@swc/types": "^0.1.6",
     "@types/geojson": "^7946.0.14",
     "axios": "^1.6.0",

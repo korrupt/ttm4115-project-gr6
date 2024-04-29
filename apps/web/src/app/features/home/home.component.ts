@@ -9,6 +9,8 @@ import { ChargerModalComponent } from './components/charger-modal/charger-modal.
 import { GetAllChargersQueryResult } from '@prosjekt/shared/models';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DARK_MODE_STYLES } from './util/maps-dark-mode';
+import { provideComponentStore } from '@ngrx/component-store';
+import { ChargerModalStore } from './components/charger-modal/store';
 
 
 @Pipe({
@@ -39,9 +41,7 @@ export class LngLatPipe implements PipeTransform {
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  providers: [
-
-  ]
+  providers: []
 })
 export class HomeComponent implements OnInit {
   auth = inject(WebAuthService);
@@ -94,17 +94,29 @@ export class HomeComponent implements OnInit {
   }
 
   onChargerClick(charger: GetAllChargersQueryResult[number], event: google.maps.MapMouseEvent) {
-    console.log(charger, event)
+    this.dialog.open(ChargerModalComponent, {
+      data: { id: charger.id }
+    })
   }
 
   ngOnInit(): void {
     this.bounds$.subscribe();
 
     this.dialog.open(ChargerModalComponent, {
-      position: { top: '10px', left: '50px' },
-      width: '200px',
-      height: '200px',
-    });
+      data: { id: 'd0915882-09df-49ac-95d7-b00952283d00' },
+      position: {
+        right: '24px',
+        top: '64px',
+      },
+      width: '300px',
+      minHeight: '500px',
+      hasBackdrop: false
+    })
+    // this.dialog.open(ChargerModalComponent, {
+    //   position: { top: '10px', left: '50px' },
+    //   width: '200px',
+    //   height: '200px',
+    // });
   }
 
   chargers$ = this.charger.getAllChargers();
