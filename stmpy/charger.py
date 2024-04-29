@@ -32,6 +32,7 @@ class Charger:
  
 class MQTT_Client:
     def __init__(self):
+        self.id = id
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
@@ -63,7 +64,7 @@ class MQTT_Client:
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe(f"cmd/charger/{id}/#")
+        self.client.subscribe(f"cmd/charger/{self.id}/#")
  
         try:
             # line below should not have the () after the function!
