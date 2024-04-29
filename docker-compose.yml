@@ -13,6 +13,9 @@ services:
     build:
       context: .
       dockerfile: ./deployment/web.dockerfile
+      args:
+        MAPS_KEY: ${MAPS_KEY}
+        MAPS_ID: ${MAPS_ID}
     env_file: .env
 
   api:

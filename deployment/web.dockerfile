@@ -17,6 +17,12 @@ WORKDIR /app
 COPY --from=deps /app .
 COPY . .
 
+ARG MAPS_KEY
+ARG MAPS_ID
+
+ENV MAPS_KEY ${MAPS_KEY}
+ENV MAPS_ID ${MAPS_ID}
+
 RUN node_modules/.bin/nx run web:server
 
 FROM node:lts-alpine3.18 as api
