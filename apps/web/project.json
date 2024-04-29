@@ -83,7 +83,7 @@
     },
     "server": {
       "dependsOn": ["build"],
-      "executor": "@angular-devkit/build-angular:server",
+      "executor": "@nx/angular:webpack-server",
       "options": {
         "outputPath": "dist/apps/web/server",
         "main": "apps/web/server.ts",
