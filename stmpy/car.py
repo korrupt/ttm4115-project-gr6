@@ -3,17 +3,27 @@ from stmpy import Machine, Driver
 import logging
 import paho.mqtt.client as mqtt
 from threading import Thread
+import ipywidgets as widgets
+from IPython.display import display
 
 broker, port = "ipsen.no", 1883
 id = 1
 class Car:
     def on_init(self):
-        pass
+        self.button_stop_charge = widgets.Button(description="Stop charge")
+        self.button_stop_charge.on_click(self.on_button_stop_charge)
+        display(self.button_stop_charge)
 
-    def send_mqtt_fully_charged(self):
-        self.stm.send("fully_charged")
-        logging.info("Fully charged")
-        self.mqtt_client.publish("car/" + str(id))
+    def on_button_stop_charge(self, b):
+        self.stm.send('stop_charge')
+
+    def send_mqtt_stop_charge(self):
+        logging.info("Charging stopped")
+        data = {
+        "msg": "stop_charging"
+        }
+        msg = json.dumps(data)
+        self.mqtt_client.publish("car/" + str(id), msg)
 
     def print_state(self, type, msg):
         print(msg)
@@ -38,7 +48,7 @@ t3 = {
     "trigger": "stop_charge",
     "source": "charge",
     "target": "not_charge",
-    "effect": "print_state('type', 'Moved to state not_charge')"
+    "effect": "print_state('type', 'Moved to state not_charge');send_mqtt_stop_charge()"
 }
 
 t4 = {
@@ -132,12 +142,3 @@ myclient.stm_driver = driver
 
 driver.start()
 myclient.start(broker, port)
-
-
-
-def test_machine():
-    car.send_mqtt_start_charge()
-    car.send_mqtt_fully_charged()
-    print("Done")
-
-#test_machine()
