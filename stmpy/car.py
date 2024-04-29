@@ -35,7 +35,7 @@ t2 = {
 }
 
 t3 = {
-    "trigger": "stop",
+    "trigger": "stop_charge",
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'Moved to state not_charge')"
@@ -43,6 +43,13 @@ t3 = {
 
 t4 = {
     "trigger": "disconnected",
+    "source": "charge",
+    "target": "not_charge",
+    "effect": "print_state('type', 'moved to state not_charge')"
+}
+
+t5 = {
+    "trigger": "time_out",
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'moved to state not_charge')"
@@ -68,10 +75,14 @@ class MQTT_Client:
         except Exception as e:
             print("Error decoding or parsing message:", e)
         print("topic: ", topic, "data:", data["msg"])
-        if topic == "cmd/car/"+ str(id) and data["msg"] == "start":
+        if topic == "cmd/car/"+ str(id) and data["msg"] == "start_charge":
             self.stm_driver.send("start_charge", "car")
-        elif topic == "cmd/car/"+ str(id) and data["msg"] == "stop":
-            self.stm_driver.send("stop", "car")  
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "stop_charge":
+            self.stm_driver.send("stop_charge", "car")
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "fully_charged":
+            self.stm_driver.send("fully_charged", "car")
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "time_out":
+            self.stm_driver.send("fully_charged", "car")  
         elif topic == "cmd/car/"+ str(id) and data["msg"] == "disconnected":
             self.stm_driver.send("disconnected", "car")    
 
@@ -109,7 +120,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
+car_machine = Machine(transitions=[t0, t1, t2, t3, t4, t5], obj=car, name="car")
 car.stm = car_machine
 
 driver = Driver()
