@@ -17,7 +17,7 @@ export class WebAuthService {
 
   private init = new BehaviorSubject(false);
   private user = new BehaviorSubject<AuthPayload | null>(null);
-  id = inject(PLATFORM_ID);
+  private id = inject(PLATFORM_ID);
 
   public tryLogin() {
     const token = this.access_token;

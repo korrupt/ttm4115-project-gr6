@@ -57,7 +57,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
       this.loaded_timeslots.some(
         (slot) =>
           (from >= slot.from && from < slot.to) ||
-          (to >= slot.from && to < slot.to),
+          (to > slot.from && to < slot.to),
       )
     ) {
       // reserved
@@ -72,7 +72,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
       from,
       to,
       charger_id: this.id,
-      charger_user_id: user.id,
+      user_id: user.id,
     });
 
     this.loaded_timeslots.push(slot);
@@ -94,7 +94,7 @@ export class Charger extends AggregateRoot implements ChargerProps {
     this.apply(new ReservationRemovedEvent(
       this.loaded_timeslots[idx].id as string,
       this.loaded_timeslots[idx].charger_id,
-      this.loaded_timeslots[idx].charger_user_id,
+      this.loaded_timeslots[idx].user_id,
       this.loaded_timeslots[idx].from,
       this.loaded_timeslots[idx].to,
     ));

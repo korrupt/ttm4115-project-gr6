@@ -6,7 +6,7 @@ export type TimeSlotProps = {
   readonly from: Moment;
   readonly to: Moment;
   readonly charger_id: string;
-  readonly charger_user_id: string;
+  readonly user_id: string;
   deleted?: true;
 }
 
@@ -15,7 +15,7 @@ export class TimeSlot implements TimeSlotProps {
   from!: Moment;
   to!: Moment;
   charger_id!: string;
-  charger_user_id!: string;
+  user_id!: string;
   deleted?: true;
 
   constructor(props: TimeSlotProps) {

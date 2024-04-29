@@ -26,7 +26,8 @@ export class GetChargerByIdQueryHandler
         'c.id as id',
         'c.name as name',
         'c.status as status',
-        'ST_AsGeoJSON(c.location)::jsonb as location'
+        'ST_AsGeoJSON(c.location)::jsonb as location',
+        'array_to_json(c.charger_types) as charger_types'
       ])
       .where('c.id = :id', { id })
       .getRawOne();

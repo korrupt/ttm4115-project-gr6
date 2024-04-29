@@ -22,7 +22,8 @@ export class GetAllChargersQueryHandler
       .select([
         'c.id as id',
         'c.name as name',
-        'ST_AsGeoJSON(c.location)::jsonb as location'
+        'ST_AsGeoJSON(c.location)::jsonb as location',
+        'array_to_json(c.charger_types) as charger_types'
       ])
       .getRawMany();
   }

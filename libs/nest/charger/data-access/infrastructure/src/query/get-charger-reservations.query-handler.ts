@@ -8,7 +8,7 @@ import { TimeSlotEntity } from "../entity";
 import moment = require("moment-timezone");
 import { BadRequestException } from "@nestjs/common";
 
-const DEFAULT_LOOKAHEAD = [3, 'h'];
+const DEFAULT_LOOKAHEAD = [6, 'h'];
 
 @QueryHandler(GetChargerReservationsQuery)
 export class GetChargerReservationsQueryHandler implements IQueryHandler<GetChargerReservationsQuery, GetChargerReservationsQueryResult> {
@@ -57,8 +57,8 @@ export class GetChargerReservationsQueryHandler implements IQueryHandler<GetChar
       const slot_to   = moment(padded_from).add(30 * (i + 1), 'm');
 
       const reserved = occupied.some((s) =>
-        slot_from >= s.from && slot_from <= s.to
-        && slot_to >= s.from && slot_to <= s.to,
+        (slot_from >= s.from && slot_from <= s.to)
+        || (slot_to > s.from && slot_to < s.to),
       );
 
       slots.push({
@@ -67,6 +67,7 @@ export class GetChargerReservationsQueryHandler implements IQueryHandler<GetChar
         reserved,
       });
     }
+
 
     return slots;
   }

@@ -1,8 +1,5 @@
 POST http://localhost:3000/api/charger/50c7e1d5-6cfc-4376-9bf2-9eb509104ff3/reservation
 Content-Type: application/json
 
-{
-  "user_id": "0d689159-8e0e-447b-bc4d-c15b5c6f769a",
-  "from": "2024-04-12 14:30:00",
-  "to": "2024-04-12 16:00:00"
-}
+{"from":"2024-04-29T12:30:00.000Z","to":"2024-04-29T13:00:00.000Z","user_id":"8929fa1f-af2a-408e-896c-edf3951f9bbe"}
+

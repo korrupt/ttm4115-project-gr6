@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { ChargerUserEntity } from "./charger-user.entity";
+import { UserEntity } from "@prosjekt/nest/user/data-access/infrastructure";
 
 
 @Entity('time-slot')
@@ -14,12 +14,12 @@ export class TimeSlotEntity {
   @Column({ type: 'timestamptz' })
   to!: string;
 
-  @ManyToOne(() => ChargerUserEntity, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'charger_user_id' })
-  charger_user!: ChargerUserEntity;
+  @ManyToOne(() => UserEntity, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'user_id' })
+  user!: UserEntity;
 
-  @Column({ name: 'charger_user_id' })
-  charger_user_id!: string;
+  @Column({ name: 'user_id' })
+  user_id!: string;
 
   @Column({ name: 'charger_id', type: 'uuid' })
   charger_id!: string;

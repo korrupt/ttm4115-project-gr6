@@ -1,13 +1,13 @@
-import { Component, inject, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WebAuthService } from '../../services/auth.service';
 import { WebChargerService } from '../../services/charger.service';
 import { GoogleMap, GoogleMapsModule, MapAdvancedMarker, MapMarker, MapMarkerClusterer } from "@angular/google-maps";
 import { WebMapsService } from '../../services/maps.service';
-import { BehaviorSubject, debounceTime, map, Subject, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, map, Subject, takeUntil, tap } from 'rxjs';
 import { ChargerModalComponent } from './components/charger-modal/charger-modal.component';
 import { GetAllChargersQueryResult } from '@prosjekt/shared/models';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DARK_MODE_STYLES } from './util/maps-dark-mode';
 import { provideComponentStore } from '@ngrx/component-store';
 import { ChargerModalStore } from './components/charger-modal/store';
@@ -43,13 +43,17 @@ export class LngLatPipe implements PipeTransform {
   styleUrl: './home.component.scss',
   providers: []
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   auth = inject(WebAuthService);
   charger = inject(WebChargerService);
   maps = inject(WebMapsService);
   dialog = inject(MatDialog);
 
+  destroy$ = new Subject<void>();
+
   trigger = new Subject<void>();
+
+  dialogRef?: MatDialogRef<ChargerModalComponent>;
 
 
   bounds$ = this.trigger.pipe(
@@ -94,16 +98,14 @@ export class HomeComponent implements OnInit {
   }
 
   onChargerClick(charger: GetAllChargersQueryResult[number], event: google.maps.MapMouseEvent) {
-    this.dialog.open(ChargerModalComponent, {
-      data: { id: charger.id }
-    })
-  }
+    if (this.dialogRef) {
+      // if (this.dialogRef.componentInstance.id.id == charger.id) return;
 
-  ngOnInit(): void {
-    this.bounds$.subscribe();
+      this.dialogRef.close();
+    }
 
-    this.dialog.open(ChargerModalComponent, {
-      data: { id: 'd0915882-09df-49ac-95d7-b00952283d00' },
+    this.dialogRef = this.dialog.open(ChargerModalComponent, {
+      data: { id: charger.id },
       position: {
         right: '24px',
         top: '64px',
@@ -111,12 +113,17 @@ export class HomeComponent implements OnInit {
       width: '300px',
       minHeight: '500px',
       hasBackdrop: false
-    })
-    // this.dialog.open(ChargerModalComponent, {
-    //   position: { top: '10px', left: '50px' },
-    //   width: '200px',
-    //   height: '200px',
-    // });
+    });
+
+    this.dialogRef.beforeClosed().pipe(takeUntil(this.destroy$)).subscribe(() => delete this.dialogRef);
+  }
+
+  ngOnInit(): void {
+    this.bounds$.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   chargers$ = this.charger.getAllChargers();

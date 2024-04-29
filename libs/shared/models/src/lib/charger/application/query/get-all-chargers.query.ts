@@ -1,3 +1,5 @@
+import { ChargerType } from "../../charger-type.enum";
+
 export type GetAllChargersQueryParams = {
   name?: string;
 };
@@ -10,6 +12,7 @@ export type GetAllChargersQueryResult = {
     type: "Point",
     coordinates: [number, number];
   };
+  charger_types: ChargerType[];
 }[];
 
 export class GetAllChargersQuery implements GetAllChargersQueryParams {

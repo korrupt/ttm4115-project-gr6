@@ -6,13 +6,14 @@ import {
 import { DataSource } from 'typeorm';
 import { ChargerUserEntity } from '../entity';
 import { NotFoundException } from '@nestjs/common';
+import { UserEntity } from '@prosjekt/nest/user/data-access/infrastructure';
 
 export class ChargerUserRepositoryImpl implements ChargerUserRepository {
   constructor(@InjectDataSource() private dataSource: DataSource) {}
 
   public async findById(id: string): Promise<ChargerUser> {
     const found = await this.dataSource
-      .getRepository(ChargerUserEntity)
+      .getRepository(UserEntity)
       .findOneBy({ id });
 
     if (!found) {

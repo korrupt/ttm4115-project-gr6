@@ -42,7 +42,7 @@ export class TimeSlotRepository {
         't.id as id',
         't.from as from',
         't.to as to',
-        't.charger_user_id as charger_user_id',
+        't.user_id as user_id',
         't.charger_id as charger_id'
       ])
       .where(

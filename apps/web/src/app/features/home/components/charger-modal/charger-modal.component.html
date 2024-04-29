@@ -1,7 +1,36 @@
 <div class="charger-modal">
-  @if (loading$ | async) {
-    loading
-  } @else {
+  <nav class="bar">
+    <button mat-icon-button (click)="close()"><mat-icon>clear</mat-icon></button>
+    <h3>{{ name$ | async }}</h3>
+  </nav>
+  <mat-divider></mat-divider>
 
+    @if (loading$ | async) {
+      loading
+    }
+
+  @if (charger$ | async; as charger) {
+    <ul class="types">
+      @for (type of charger.charger_types; track type) {
+        <li>{{ type }}</li>
+      }
+      <li>Status: {{ charger.status }}</li>
+    </ul>
   }
+
+  <ul class="reservations">
+      @if (reservations$ | async; as res) {
+        @for (r of res; track r.from) {
+          <li>
+            <button (click)="reserve(r)" [disabled]="r.reserved" mat-button>
+              <div>
+                <p>{{ r.from | date: "HH:mm" }}</p>
+                <span>-</span>
+                <p>{{ r.to | date: "HH:mm" }}</p>
+              </div>
+            </button>
+          </li>
+        }
+      }
+    </ul>
 </div>
