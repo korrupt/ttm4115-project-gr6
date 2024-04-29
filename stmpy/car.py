@@ -17,7 +17,7 @@ class Car:
         display(self.button_stop_charge, self.button_terminate)
 
     def on_button_stop_charge(self, b):
-        self.stm.send('stop_charge')
+        self.stm.send('stop_charging')
 
     def on_button_terminate(self, b):
         self.stm.driver.stop()
@@ -28,7 +28,7 @@ class Car:
         "msg": "stop_charging"
         }
         msg = json.dumps(data)
-        self.mqtt_client.publish("car/1", msg)
+        self.mqtt_client.publish("car/" + str(id), msg)
 
     def print_state(self, type, msg):
         print(msg)
