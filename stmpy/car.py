@@ -12,10 +12,15 @@ class Car:
     def on_init(self):
         self.button_stop_charge = widgets.Button(description="Stop charge")
         self.button_stop_charge.on_click(self.on_button_stop_charge)
-        display(self.button_stop_charge)
+        self.button_terminate = widgets.Button(description="Stop the Driver")
+        self.button_terminate.on_click(self.on_button_terminate)
+        display(self.button_stop_charge, self.button_terminate)
 
     def on_button_stop_charge(self, b):
         self.stm.send('stop_charge')
+
+    def on_button_terminate(self, b):
+        self.stm.driver.stop()
 
     def send_mqtt_stop_charge(self):
         logging.info("Charging stopped")
@@ -23,7 +28,7 @@ class Car:
         "msg": "stop_charging"
         }
         msg = json.dumps(data)
-        self.mqtt_client.publish("car/" + str(id), msg)
+        self.mqtt_client.publish("car/1", msg)
 
     def print_state(self, type, msg):
         print(msg)
@@ -31,35 +36,28 @@ class Car:
 t0 = {"source": "initial", "target": "not_charge", "effect": "on_init"}
 
 t1 = {
-    "trigger": "start_charge",
+    "trigger": "start_charging",
     "source": "not_charge",
     "target": "charge",
     "effect": 'print_state("type", "Moved to state charge")'
 }
 
 t2 = {
-    "trigger": "fully_charged",
+    "trigger": "car_fully_charged",
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'Moved to state not_charge')"
 }
 
 t3 = {
-    "trigger": "stop_charge",
+    "trigger": "stop_charging",
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'Moved to state not_charge');send_mqtt_stop_charge()"
 }
 
 t4 = {
-    "trigger": "disconnected",
-    "source": "charge",
-    "target": "not_charge",
-    "effect": "print_state('type', 'moved to state not_charge')"
-}
-
-t5 = {
-    "trigger": "time_out",
+    "trigger": "charger_disconnected",
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'moved to state not_charge')"
@@ -85,16 +83,14 @@ class MQTT_Client:
         except Exception as e:
             print("Error decoding or parsing message:", e)
         print("topic: ", topic, "data:", data["msg"])
-        if topic == "cmd/car/"+ str(id) and data["msg"] == "start_charge":
-            self.stm_driver.send("start_charge", "car")
-        elif topic == "cmd/car/"+ str(id) and data["msg"] == "stop_charge":
-            self.stm_driver.send("stop_charge", "car")
-        elif topic == "cmd/car/"+ str(id) and data["msg"] == "fully_charged":
-            self.stm_driver.send("fully_charged", "car")
-        elif topic == "cmd/car/"+ str(id) and data["msg"] == "time_out":
-            self.stm_driver.send("fully_charged", "car")  
-        elif topic == "cmd/car/"+ str(id) and data["msg"] == "disconnected":
-            self.stm_driver.send("disconnected", "car")    
+        if topic == "cmd/car/"+ str(id) and data["msg"] == "start_charging":
+            self.stm_driver.send("start_charging", "car")
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "stop_charging":
+            self.stm_driver.send("stop_charging", "car")
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "car_fully_charged":
+            self.stm_driver.send("car_fully_charged", "car") 
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "charger_disconnected":
+            self.stm_driver.send("charger_disconnected", "car")    
 
 
     def start(self, broker, port):
@@ -130,7 +126,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3, t4, t5], obj=car, name="car")
+car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
 car.stm = car_machine
 
 driver = Driver()
