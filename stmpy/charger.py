@@ -50,14 +50,21 @@ class MQTT_Client:
         except json.JSONDecodeError:
             print("Failed to decode JSON")
         print(msg_content)
-        if (msg_content == "start"):
+        if (msg_content == "start_charging"):
             self.stm_driver.send("start", "charger_stm")
-        elif (msg_content == "end"):
+        elif (msg_content == "stop_charging"):
             self.stm_driver.send("end", "charger_stm")
-        elif (msg_content == "down"):
+        elif (msg_content == "charger_down"):
             self.stm_driver.send("down", "charger_stm")
         elif (msg_content == "repair"):
             self.stm_driver.send("repaired", "charger_stm")
+        #For debug and simulation purposes, event_disconnected, event_car_charged, event_self_down are implemented with MQTT
+        elif (msg_content == "event_disconnected"):
+            self.stm_driver.send("disconnected", "charger_stm")
+        elif (msg_content == "event_car_charged"):
+            self.stm_driver.send("fully_charged", "charger_stm")
+        elif (msg_content == "event_self_down"):
+            self.stm_driver.send("self_down", "charger_stm")
         else:
             print(topic, msg_content)
  
@@ -82,15 +89,16 @@ s_idle = {
 
 s_active = {
     'name': 'active',
-    'entry': 'msg_cloud("status","active");start_measure_electricity()',
+    'entry': 'msg_cloud("status","charging");start_measure_electricity()',
     'exit': 'end_measure_electricity();'
 
 }
 
 s_down = {
     'name': 'down',
-    'entry': 'msg_cloud("status","down")',
-    'exit' : 'msg_cloud("status","repaired")'
+    'entry': 'msg_cloud("status","out_of_order")',
+    'start': 'msg_cloud("status","charger_out_of_order")',
+    'exit' : 'msg_cloud("status","charger_repaired")'
 }
 
 t_init = {'source': 'initial',
@@ -107,7 +115,25 @@ t_end = {'trigger': 'end',
          'target': 'idle'
          }
 
+t_fully_charged = {'trigger': 'fully_charged',
+          'source': 'active',
+         'target': 'idle',
+         'effect': 'msg_cloud("status", "car_fully_charged")'
+         }
+
+t_disconnected = {'trigger': 'disconnected',
+          'source': 'active',
+         'target': 'idle',
+         'effect': 'msg_cloud("status", "charger_disconnected")'
+         }
+
+
 t_idle_down = {'trigger': 'down',
+                'source': 'idle',
+               'target': 'down'
+               }
+
+t_idle_self_down = {'trigger': 'self_down',
                 'source': 'idle',
                'target': 'down'
                }
@@ -117,6 +143,12 @@ t_active_down = {'trigger': 'down',
                  'target': 'down'
                  }
 
+t_active_self_down = {'trigger': 'self_down',
+                'source': 'active',
+                 'target': 'down'
+                 }
+
+
 t_repaired = {'trigger': 'repaired', 
               'source': 'down',
               'target': 'idle'
@@ -124,7 +156,7 @@ t_repaired = {'trigger': 'repaired',
 
  
 charger = Charger()
-charger_machine =  Machine('charger_stm', [t_init, t_start, t_end, t_idle_down, t_active_down, t_repaired], charger, [s_idle, s_active, s_down])
+charger_machine =  Machine('charger_stm', [t_init, t_start, t_end, t_disconnected, t_fully_charged, t_idle_down, t_active_down, t_idle_self_down, t_active_self_down, t_repaired], charger, [s_idle, s_active, s_down])
 charger.stm = charger_machine
  
 driver = Driver()
