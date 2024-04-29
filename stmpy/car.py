@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 from threading import Thread
 
 broker, port = "ipsen.no", 1883
-
+id = 1
 class Car:
     def on_init(self):
         pass
@@ -13,7 +13,7 @@ class Car:
     def send_mqtt_fully_charged(self):
         self.stm.send("fully_charged")
         logging.info("Fully charged")
-        self.mqtt_client.publish("cmd/charger/id/stop")
+        self.mqtt_client.publish("car/" + str(id))
 
     def print_state(self, type, msg):
         print(msg)
@@ -68,20 +68,18 @@ class MQTT_Client:
         except Exception as e:
             print("Error decoding or parsing message:", e)
         print("topic: ", topic, "data:", data["msg"])
-        if topic == "cmd/car/id" and data["msg"] == "start":
-            print("hei")
+        if topic == "cmd/car/"+ str(id) and data["msg"] == "start":
             self.stm_driver.send("start_charge", "car")
-        elif topic == "cmd/car/id" and data["msg"] == "stop":
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "stop":
             self.stm_driver.send("stop", "car")  
-        elif topic == "cmd/car/id" and data["msg"] == "disconnected":
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "disconnected":
             self.stm_driver.send("disconnected", "car")    
 
 
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe("cmd/car/id")
-        self.client.subscribe("cmd/charger/id")
+        self.client.subscribe("cmd/car/"+ str(id))
         try:
             # line below should not have the () after the function!
             thread = Thread(target=self.client.loop_forever)
