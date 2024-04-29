@@ -6,6 +6,15 @@ networks:
 
 services:
 
+  web:
+    container_name: web
+    ports:
+      - 4000:4000
+    build:
+      context: .
+      dockerfile: ./deployment/web.dockerfile
+    env_file: .env
+
   api:
     container_name: api
     ports:
