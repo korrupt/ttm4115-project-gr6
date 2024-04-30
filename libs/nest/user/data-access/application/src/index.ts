@@ -1,1 +1,1 @@
-export * from './lib/nest-user-data-access-application.module';
+export * from './lib/user.controller';
