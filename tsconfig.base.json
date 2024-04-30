@@ -38,6 +38,7 @@
       "@prosjekt/nest/charger/feature": [
         "libs/nest/charger/feature/src/index.ts"
       ],
+      "@prosjekt/nest/entity": ["libs/nest/entity/src/index.ts"],
       "@prosjekt/nest/shared/typeorm/config": [
         "libs/nest/shared/typeorm/config/src/index.ts"
       ],

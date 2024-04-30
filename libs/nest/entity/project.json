@@ -1,0 +1,9 @@
+{
+  "name": "nest-entity",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/entity/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project nest-entity --web",
+  "targets": {}
+}

@@ -3,10 +3,10 @@ import { InjectDataSource } from "@nestjs/typeorm";
 import { GetChargerReservationsQuery, GetChargerReservationsQueryResult,
  } from "@prosjekt/shared/models";
 import { DataSource } from "typeorm";
-import { TimeSlotEntity } from "../entity";
 
 import moment = require("moment-timezone");
 import { BadRequestException } from "@nestjs/common";
+import { TimeSlotEntity } from "@prosjekt/nest/entity";
 
 const DEFAULT_LOOKAHEAD = [6, 'h'];
 

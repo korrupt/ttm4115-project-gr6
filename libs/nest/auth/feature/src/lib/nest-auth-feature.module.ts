@@ -1,12 +1,12 @@
 import { Module, Provider } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthGuard, PassportModule } from '@nestjs/passport';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthConfigService, NestAuthConfigModule } from '@prosjekt/nest/auth/config';
 import { AuthController, GoogleGuard, JwtGuard } from '@prosjekt/nest/auth/data-access/application';
 import { AuthToken } from '@prosjekt/nest/auth/data-access/domain';
-import { AuthEntity, AuthRepositoryImpl, GoogleStrategy, JwtStrategy } from '@prosjekt/nest/auth/data-access/infrastructure';
-import { UserEntity } from '@prosjekt/nest/user/data-access/infrastructure';
+import { AuthRepositoryImpl, GoogleStrategy, JwtStrategy } from '@prosjekt/nest/auth/data-access/infrastructure';
+import { AuthEntity, UserEntity } from '@prosjekt/nest/entity';
 
 const DOMAIN: Provider[] = [];
 const INFRASTRUCTURE: Provider[] = [

@@ -5,8 +5,8 @@ import {
   GetChargerByIdQueryResult,
 } from '@prosjekt/shared/models';
 import { DataSource } from 'typeorm';
-import { ChargerEntity } from '../entity';
 import { NotFoundException } from '@nestjs/common';
+import { ChargerEntity } from '@prosjekt/nest/entity';
 
 @QueryHandler(GetChargerByIdQuery)
 export class GetChargerByIdQueryHandler

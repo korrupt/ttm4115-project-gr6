@@ -7,7 +7,7 @@ export type GetUserByIdQueryProps = {
 export type GetUserByIdQueryResult = {
   id: string;
   name: string;
-}[];
+};
 
 
 export class GetUserByIdQuery implements GetUserByIdQueryProps {

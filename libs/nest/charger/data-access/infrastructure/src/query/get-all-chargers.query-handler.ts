@@ -1,11 +1,11 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { ChargerEntity } from '@prosjekt/nest/entity';
 import {
   GetAllChargersQuery,
   GetAllChargersQueryResult,
 } from '@prosjekt/shared/models';
 import { DataSource } from 'typeorm';
-import { ChargerEntity } from '../entity';
 
 @QueryHandler(GetAllChargersQuery)
 export class GetAllChargersQueryHandler

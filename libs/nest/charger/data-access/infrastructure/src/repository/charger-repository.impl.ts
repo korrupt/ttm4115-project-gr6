@@ -1,5 +1,4 @@
 import {
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
@@ -8,13 +7,11 @@ import {
   ChargerFactory,
   ChargerProps,
   ChargerRepository,
-  TimeSlot,
-  TimeSlotFactory,
 } from '@prosjekt/nest/charger/data-access/domain';
 import { DataSource } from 'typeorm';
-import { ChargerEntity, TimeSlotEntity } from '../entity';
 import { TimeSlotRepository } from './time-slot.repository';
 import { Moment } from 'moment-timezone';
+import { ChargerEntity } from '@prosjekt/nest/entity';
 
 export class ChargerRepositoryImpl implements ChargerRepository {
   constructor(

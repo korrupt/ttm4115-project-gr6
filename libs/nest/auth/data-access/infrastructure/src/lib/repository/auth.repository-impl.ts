@@ -2,8 +2,7 @@ import { InternalServerErrorException, NotFoundException } from "@nestjs/common"
 import { InjectDataSource } from "@nestjs/typeorm";
 import { AuthProvider, AuthRepository, AuthUser } from "@prosjekt/nest/auth/data-access/domain";
 import { DataSource, EntityManager } from "typeorm";
-import { AuthEntity } from "../entity";
-import { UserEntity } from "@prosjekt/nest/user/data-access/infrastructure";
+import { UserEntity, AuthEntity } from "@prosjekt/nest/entity";
 
 
 

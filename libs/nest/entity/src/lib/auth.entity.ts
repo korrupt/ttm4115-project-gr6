@@ -1,4 +1,4 @@
-import { UserEntity } from '@prosjekt/nest/user/data-access/infrastructure';
+import { UserEntity } from './user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum AuthProvider {

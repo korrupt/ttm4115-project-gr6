@@ -1,0 +1,3 @@
+GET http://localhost:3000/api/user/8929fa1f-af2a-408e-896c-edf3951f9bbe
+Accept: application/json
+

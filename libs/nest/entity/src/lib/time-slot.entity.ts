@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { UserEntity } from "@prosjekt/nest/user/data-access/infrastructure";
+import { UserEntity } from "./user.entity";
 
 
 @Entity('time-slot')

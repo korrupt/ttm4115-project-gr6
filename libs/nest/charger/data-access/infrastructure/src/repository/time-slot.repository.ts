@@ -1,11 +1,11 @@
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
 import { TimeSlot, TimeSlotFactory } from "@prosjekt/nest/charger/data-access/domain";
-import { TimeSlotEntity } from "../entity";
 
 import { Moment } from 'moment-timezone';
 import moment = require("moment-timezone");
 import { NotFoundException } from "@nestjs/common";
+import { TimeSlotEntity } from "@prosjekt/nest/entity";
 
 
 

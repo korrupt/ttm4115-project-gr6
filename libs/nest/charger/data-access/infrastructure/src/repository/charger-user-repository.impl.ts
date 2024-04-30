@@ -4,9 +4,8 @@ import {
   ChargerUser,
 } from '@prosjekt/nest/charger/data-access/domain';
 import { DataSource } from 'typeorm';
-import { ChargerUserEntity } from '../entity';
 import { NotFoundException } from '@nestjs/common';
-import { UserEntity } from '@prosjekt/nest/user/data-access/infrastructure';
+import { UserEntity } from '@prosjekt/nest/entity';
 
 export class ChargerUserRepositoryImpl implements ChargerUserRepository {
   constructor(@InjectDataSource() private dataSource: DataSource) {}

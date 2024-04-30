@@ -3,16 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddChargerCommandHandler, AddReservationCommandhandler, ChargerController, RemoveChargerCommandHandler, RemoveReservationCommandHandler } from '@prosjekt/nest/charger/data-access/application';
 import { ChargerFactory, ChargerTokens } from '@prosjekt/nest/charger/data-access/domain';
 import {
-  ChargerEntity,
   ChargerRepositoryImpl,
-  ChargerUserEntity,
   ChargerUserRepositoryImpl,
   GetAllChargersQueryHandler,
   GetChargerByIdQueryHandler,
   GetChargerReservationsQueryHandler,
-  TimeSlotEntity,
 } from '@prosjekt/nest/charger/data-access/infrastructure';
 import { TimeSlotRepository } from '@prosjekt/nest/charger/data-access/infrastructure';
+import { ChargerEntity, TimeSlotEntity, UserEntity } from '@prosjekt/nest/entity';
 
 const APPLICATION = [
   AddChargerCommandHandler,
@@ -44,6 +42,6 @@ const INFRASTRUCTURE: Provider[] = [
   controllers: [ChargerController],
   providers: [...INFRASTRUCTURE, ...APPLICATION, ...DOMAIN],
   exports: [],
-  imports: [TypeOrmModule.forFeature([ChargerEntity, ChargerUserEntity, TimeSlotEntity])],
+  imports: [TypeOrmModule.forFeature([ChargerEntity, UserEntity, TimeSlotEntity])],
 })
 export class NestChargerFeatureModule {}

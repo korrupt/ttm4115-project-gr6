@@ -1,2 +1,2 @@
 export * from './lib/repository';
-export * from './lib/entity';
+export * from './lib/query';
