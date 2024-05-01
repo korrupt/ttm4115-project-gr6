@@ -10,17 +10,28 @@ broker, port = "ipsen.no", 1883
 id = 1
 class Car:
     def on_init(self):
-        self.button_stop_charge = widgets.Button(description="Stop charge")
+        self.button_stop_charge = widgets.Button(description="Stop charging")
         self.button_stop_charge.on_click(self.on_button_stop_charge)
-        self.button_terminate = widgets.Button(description="Stop the Driver")
-        self.button_terminate.on_click(self.on_button_terminate)
-        display(self.button_stop_charge, self.button_terminate)
+        self.button_start_charge = widgets.Button(description="Start charging")
+        self.button_start_charge.on_click(self.on_button_start_charge)
+        display(self.button_start_charge, self.button_stop_charge)
 
     def on_button_stop_charge(self, b):
         self.stm.send('stop_charging')
 
+    def on_button_start_charge(self, b):
+        self.stm.send('start_charging')
+
     def on_button_terminate(self, b):
         self.stm.driver.stop()
+
+    def send_mqtt_start_charge(self):
+        logging.info("Charging started")
+        data = {
+        "msg": "start_charging"
+        }
+        msg = json.dumps(data)
+        self.mqtt_client.publish("car/" + str(id), msg)
 
     def send_mqtt_stop_charge(self):
         logging.info("Charging stopped")
@@ -39,7 +50,7 @@ t1 = {
     "trigger": "start_charging",
     "source": "not_charge",
     "target": "charge",
-    "effect": 'print_state("type", "Moved to state charge")'
+    "effect": 'print_state("type", "Moved to state charge");send_mqtt_start_charge()'
 }
 
 t2 = {
@@ -61,6 +72,13 @@ t4 = {
     "source": "charge",
     "target": "not_charge",
     "effect": "print_state('type', 'moved to state not_charge')"
+}
+
+t5 = {
+    "trigger": "charging_error",
+    "source": "charge",
+    "target": "not_charge",
+    "effect": "print_state('type', 'Moved to state not_charge')"
 }
 
 
@@ -90,7 +108,9 @@ class MQTT_Client:
         elif topic == "cmd/car/"+ str(id) and data["msg"] == "car_fully_charged":
             self.stm_driver.send("car_fully_charged", "car") 
         elif topic == "cmd/car/"+ str(id) and data["msg"] == "charger_disconnected":
-            self.stm_driver.send("charger_disconnected", "car")    
+            self.stm_driver.send("charger_disconnected", "car")  
+        elif topic == "cmd/car/"+ str(id) and data["msg"] == "charger_error":
+            self.stm_driver.send("charging_error", "car")  
 
 
     def start(self, broker, port):
@@ -126,7 +146,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 car = Car()
-car_machine = Machine(transitions=[t0, t1, t2, t3, t4], obj=car, name="car")
+car_machine = Machine(transitions=[t0, t1, t2, t3, t4, t5], obj=car, name="car")
 car.stm = car_machine
 
 driver = Driver()
