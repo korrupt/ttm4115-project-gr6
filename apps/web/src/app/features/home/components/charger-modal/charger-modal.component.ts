@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { WebChargerService } from "../../../../services/charger.service";
 import { ChargerModalStore } from "./store";
@@ -8,7 +8,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
 
-import { map, tap } from "rxjs";
+import { interval, map, startWith, Subject, takeUntil, tap } from "rxjs";
 import { GetChargerReservationsQueryResult } from "@prosjekt/shared/models";
 import { WebAuthService } from "../../../../services/auth.service";
 
@@ -23,11 +23,13 @@ import { WebAuthService } from "../../../../services/auth.service";
     provideComponentStore(ChargerModalStore)
   ]
 })
-export class ChargerModalComponent implements OnInit {
+export class ChargerModalComponent implements OnInit, OnDestroy {
   chargerService = inject(WebChargerService);
   store = inject(ChargerModalStore);
   auth = inject(WebAuthService);
   dialog = inject(MatDialogRef);
+
+  destroy$ = new Subject<void>();
 
   readonly id: { id: string } = inject(MAT_DIALOG_DATA, {optional: false});
 
@@ -54,9 +56,17 @@ export class ChargerModalComponent implements OnInit {
     ).subscribe();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
 
   ngOnInit(): void {
-    this.store.fetchCharger$({ id: this.id.id });
-    this.store.fetchReservations$({ id: this.id.id });
+    interval(500).pipe(
+      takeUntil(this.destroy$),
+      startWith(0),
+    ).subscribe(() => {
+      this.store.fetchCharger$({ id: this.id.id });
+      this.store.fetchReservations$({ id: this.id.id });
+    })
   }
 }

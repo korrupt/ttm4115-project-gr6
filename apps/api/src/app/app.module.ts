@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Global, Module, ValidationPipe } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,7 +12,6 @@ import { NestChargerFeatureModule } from '@prosjekt/nest/charger/feature';
 import { APP_PIPE } from '@nestjs/core';
 import { NestAuthFeatureModule } from '@prosjekt/nest/auth/feature';
 import { NestUserFeatureModule } from '@prosjekt/nest/user/feature';
-
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -43,5 +42,6 @@ import { NestUserFeatureModule } from '@prosjekt/nest/user/feature';
       useValue: new ValidationPipe({ transform: true, whitelist: true })
     }
   ],
+  exports: []
 })
 export class AppModule {}

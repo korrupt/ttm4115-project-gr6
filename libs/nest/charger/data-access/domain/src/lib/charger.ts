@@ -2,7 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ChargerUser } from './aggregates/charger-user';
 import { TimeSlot } from './aggregates/time-slot';
 import { ChargerType } from '@prosjekt/shared/models';
-import { ChargerAddedEvent, ChargerRemovedEvent, ReservationAddedEvent, ReservationRemovedEvent } from './event';
+import { ChargerAddedEvent, ChargerRemovedEvent, ChargerStatusChangedEvent, ReservationAddedEvent, ReservationRemovedEvent } from './event';
 import { Moment } from 'moment-timezone';
 
 export interface ChargerProps {
@@ -36,6 +36,11 @@ export class Charger extends AggregateRoot implements ChargerProps {
   constructor(props: ChargerProps) {
     super();
     Object.assign(this, props);
+  }
+
+  updateStatus(status: string) {
+    this.status = status;
+    this.apply(new ChargerStatusChangedEvent(this.id, status));
   }
 
   create(): void {
