@@ -4,21 +4,18 @@ from threading import Thread
 import json
 import random
 
-id = 1
+id = "19e0b6bf-4d0f-43c2-ae93-90e42e62ba70"
 broker, port = "ipsen.no", 1883
  
 class Charger:
     def __init__(self):
         self.electricity = 0
- 
-    def msg(self, message):
-        print(message)
 
     def msg_cloud(self, type, message):
         print(message)
         msg = {"msg": message}
         json_msg = json.dumps(msg)
-        self.mqtt_client.publish(f"charger/{id}/{type}", json_msg)
+        self.mqtt_client.publish(f"charger/{id}{type}", json_msg)
 
     def start_measure_electricity(self):
         self.electricity = 0
@@ -26,8 +23,6 @@ class Charger:
     def end_measure_electricity(self):
         self.electricity = random.randint(10,150)
         self.msg_cloud("charge", self.electricity)
-
-    
  
  
 class MQTT_Client:
@@ -49,7 +44,7 @@ class MQTT_Client:
             msg_content = json.loads(payload_str)['msg']
         except json.JSONDecodeError:
             print("Failed to decode JSON")
-        print(msg_content)
+        print("incomming_message:", msg_content)
         if (msg_content == "start_charging"):
             self.stm_driver.send("start", "charger_stm")
         elif (msg_content == "stop_charging"):
@@ -84,21 +79,21 @@ class MQTT_Client:
  
 s_idle = {
     'name': 'idle',
-    'entry': 'msg_cloud("status","idle")'
+    'entry': 'msg_cloud("/status","idle")'
 }
 
 s_active = {
     'name': 'active',
-    'entry': 'msg_cloud("status","charging");start_measure_electricity()',
+    'entry': 'msg_cloud("/status","charging");start_measure_electricity()',
     'exit': 'end_measure_electricity();'
 
 }
 
 s_down = {
     'name': 'down',
-    'entry': 'msg_cloud("status","out_of_order")',
-    'start': 'msg_cloud("status","out_of_order")',
-    'exit' : 'msg_cloud("status","charger_repaired")'
+    'entry': 'msg_cloud("/status","out_of_order")',
+    'start': 'msg_cloud("/status","out_of_order")',
+    'exit' : 'msg_cloud("/status","charger_repaired")'
 }
 
 t_init = {'source': 'initial',
@@ -118,13 +113,13 @@ t_end = {'trigger': 'end',
 t_fully_charged = {'trigger': 'fully_charged',
           'source': 'active',
          'target': 'idle',
-         'effect': 'msg_cloud("status", "car_fully_charged")'
+         'effect': 'msg_cloud("", "car_fully_charged")'
          }
 
 t_disconnected = {'trigger': 'disconnected',
           'source': 'active',
          'target': 'idle',
-         'effect': 'msg_cloud("status", "charger_disconnected")'
+         'effect': 'msg_cloud("", "charger_disconnected")'
          }
 
 
