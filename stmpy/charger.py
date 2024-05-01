@@ -71,7 +71,7 @@ class MQTT_Client:
     def start(self, broker, port):
         print("Connecting to {}:{}".format(broker, port))
         self.client.connect(broker, port)
-        self.client.subscribe(f"cmd/charger/{self.id}/#")
+        self.client.subscribe(f"cmd/charger/{self.id}/#")   
  
         try:
             # line below should not have the () after the function!
@@ -97,7 +97,7 @@ s_active = {
 s_down = {
     'name': 'down',
     'entry': 'msg_cloud("status","out_of_order")',
-    'start': 'msg_cloud("status","charger_out_of_order")',
+    'start': 'msg_cloud("status","out_of_order")',
     'exit' : 'msg_cloud("status","charger_repaired")'
 }
 
