@@ -2,15 +2,13 @@ import { Component, inject, OnDestroy, OnInit, Pipe, PipeTransform, ViewChild } 
 import { CommonModule } from '@angular/common';
 import { WebAuthService } from '../../services/auth.service';
 import { WebChargerService } from '../../services/charger.service';
-import { GoogleMap, GoogleMapsModule, MapAdvancedMarker, MapMarker, MapMarkerClusterer } from "@angular/google-maps";
+import { GoogleMap, GoogleMapsModule, MapMarker } from "@angular/google-maps";
 import { WebMapsService } from '../../services/maps.service';
-import { BehaviorSubject, debounceTime, map, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, interval, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ChargerModalComponent } from './components/charger-modal/charger-modal.component';
 import { GetAllChargersQueryResult } from '@prosjekt/shared/models';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DARK_MODE_STYLES } from './util/maps-dark-mode';
-import { provideComponentStore } from '@ngrx/component-store';
-import { ChargerModalStore } from './components/charger-modal/store';
 
 
 @Pipe({
@@ -119,14 +117,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.bounds$.subscribe();
+
+    interval(500).pipe(
+      takeUntil(this.destroy$),
+      switchMap(() => this.charger.getAllChargers())
+    ).subscribe((result) => this.chargers.next(result))
+
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
   }
 
-  chargers$ = this.charger.getAllChargers();
+  chargers = new BehaviorSubject<GetAllChargersQueryResult>([]);
+  chargers$ = this.chargers.asObservable().pipe(
+
+  )
 
   user$ = this.auth.user$;
 }

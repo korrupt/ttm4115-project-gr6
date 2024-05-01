@@ -8,7 +8,7 @@
   (mapDrag)="onMapMove()"
   (mapClick)="onMapClick($event)"
   >
-  @for (marker of chargers$ | async; track marker) {
+  @for (marker of chargers$ | async; track marker.id) {
     <!-- <map-marker-clusterer imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"> -->
 
       <map-advanced-marker

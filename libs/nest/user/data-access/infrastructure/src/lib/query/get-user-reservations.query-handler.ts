@@ -19,8 +19,14 @@ export class GetUserReservationsQueryHandler implements IQueryHandler<GetUserRes
     }
 
     return this.dataSource.getRepository(TimeSlotEntity)
-      .findBy({
-        user_id: query.user_id
-      });
+      .createQueryBuilder('t')
+      .select([
+        't.id as id',
+        't.from as from',
+        't.to as to',
+      ])
+      .where('t.user_id = :id', { id: user.id })
+      .orderBy('t.from', 'DESC')
+      .getRawMany();
   }
 }

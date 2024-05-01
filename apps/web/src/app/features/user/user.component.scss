@@ -1,0 +1,19 @@
+.app-user {
+  color: #FFF;
+  box-sizing: border-box;
+  padding: 16px;
+
+  width: 100%;
+  max-width: 500px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div class="app-user">
+  @if (user$ | async; as user) {
+    <h3>{{ user.name }}</h3>
+  }
+  <mat-divider></mat-divider>
+
+  <h4>Reservations</h4>
+  <ul>
+    @if (reservations$ | async; as reservations) {
+      @for (r of reservations; track r.from) {
+        <li>
+          <p>{{r.from | date: 'dd/MM/yyyy HH:mm'}}</p>
+          <span>-</span>
+          <p>{{r.to | date: 'dd/MM/yyyy HH:mm'}}</p>
+          <button mat-icon-button (click)="remove(r.id)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </li>
+      }
+    }
+  </ul>
+</div>

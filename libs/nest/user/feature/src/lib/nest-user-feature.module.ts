@@ -1,12 +1,17 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TimeSlotEntity, UserEntity } from '@prosjekt/nest/entity';
-import { UserController } from '@prosjekt/nest/user/data-access/application';
-import { GetUserByIdQueryHandler, GetUserQueryHandler } from '@prosjekt/nest/user/data-access/infrastructure';
+import { RemoveUserReservationCommandHandler, UserController } from '@prosjekt/nest/user/data-access/application';
+import { GetUserByIdQueryHandler, GetUserQueryHandler, GetUserReservationsQueryHandler } from '@prosjekt/nest/user/data-access/infrastructure';
+
+const APPLICATION: Provider[] = [
+  RemoveUserReservationCommandHandler,
+]
 
 const INFRASTRUCTURE: Provider[] = [
   GetUserQueryHandler,
   GetUserByIdQueryHandler,
+  GetUserReservationsQueryHandler,
 ]
 
 @Module({
@@ -15,6 +20,7 @@ const INFRASTRUCTURE: Provider[] = [
   ],
   controllers: [UserController],
   providers: [
+    ...APPLICATION,
     ...INFRASTRUCTURE,
   ]
 })

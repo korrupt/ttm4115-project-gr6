@@ -7,6 +7,7 @@ export type GetUserReservationsQueryProps = {
 export type GetUserReservationsQueryResult = {
   from: string;
   to: string;
+  id: string;
 }[];
 
 export class GetUserReservationsQuery implements GetUserReservationsQueryProps {

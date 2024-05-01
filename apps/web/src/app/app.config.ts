@@ -8,6 +8,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { WebChargerService } from './services/charger.service';
 import { WebHttpInterceptor } from './http-interceptor';
 import { WebMapsService } from './services/maps.service';
+import { WebUserService } from './services/user.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     WebAuthService,
     WebChargerService,
     WebMapsService,
+    WebUserService,
     {
       provide: APP_INITIALIZER,
       useFactory: (maps: WebMapsService) => () => maps.loadScript(),
