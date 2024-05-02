@@ -57,7 +57,7 @@ export class GetChargerReservationsQueryHandler implements IQueryHandler<GetChar
       const slot_to   = moment(padded_from).add(30 * (i + 1), 'm');
 
       const reserved = occupied.some((s) =>
-        (slot_from >= s.from && slot_from <= s.to)
+        (slot_from >= s.from && slot_from < s.to)
         || (slot_to > s.from && slot_to < s.to),
       );
 
